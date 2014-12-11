@@ -18,10 +18,13 @@ class Welcome < (Example rescue Gosu::Window)
       
       Every example can be run both from this tool <i>and</i> from the terminal/command line as a stand-alone Ruby script.
       
-      Below the list of examples, you can also find demos of a few of Gosu’s features.
-      These can also be used to make sure everything is working as expected on your machine.
+      Shortcuts:
       
-      To see the source code of an example or feature demo, simply press <i>S</i>. Why not try it right now?"
+      • To see the source code of an example or feature demo, press <i>S</i>.
+      • To open the folder of examples, press <i>O</i>.
+      • To quit this tool, press <i>Esc</i>. This is useful if you are running in fullscreen mode. (gosu-examples --fullscreen)
+      
+      Why not take a look at this example right now? Simply press <i>S</i>."
     
     # Remove all leading spaces so the text is left-aligned
     text.gsub! /^ +/, ''

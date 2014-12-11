@@ -48,18 +48,6 @@ class Example
   def self.source_file
     @@examples[self]
   end
-  
-  def show_source
-    if file = self.class.source_file then
-      if RUBY_PLATFORM =~ /darwin[0-9]*$/ then
-        `open '#{file}'`
-      elsif RUBY_PLATFORM =~ /mingw[0-9]*$/ then
-        `explorer '#{file}'`
-      else
-        `xdg-open '#{file}'`
-      end
-    end
-  end
 end
 
 
@@ -81,7 +69,7 @@ end
 
 Dir.chdir "#{File.dirname __FILE__}/../examples"
 
-Dir.glob("{.,../features}/{welcome}.rb") do |file| # TODO - should be *.rb
+Dir.glob("{.,../features}/*.rb") do |file| # TODO - should be *.rb
   begin
     # Remember that all examples and features being loaded now must come from the
     # next file.
@@ -116,6 +104,7 @@ class ExampleBox < Gosu::Window
     
     @header = Gosu::Image.new("media/header.psd", :tileable => true)
     @current_example = Example::examples.sample.new
+    @font = Gosu::Font.new(20)
   end
   
   def update
@@ -137,7 +126,13 @@ class ExampleBox < Gosu::Window
     when Gosu::KbEscape
       close
     when char_to_button_id('S')
-      @current_example.show_source
+      if filename = @current_example.class.source_file then
+        open_file_or_folder filename
+      end
+    when char_to_button_id('O')
+      if filename = @current_example.class.source_file then
+        open_file_or_folder File.dirname(filename)
+      end
     else
       @current_example.button_down(id)
     end
@@ -161,6 +156,16 @@ class ExampleBox < Gosu::Window
                     0
     
     @header.draw EXAMPLE_WIDTH, 0, 0
+  end
+  
+  def open_file_or_folder(filename)
+    if RUBY_PLATFORM =~ /darwin[0-9]*$/ then
+      `open '#{filename}'`
+    elsif RUBY_PLATFORM =~ /mingw[0-9]*$/ then
+      `explorer '#{filename}'`
+    else
+      `xdg-open '#{filename}'`
+    end
   end
 end
 
