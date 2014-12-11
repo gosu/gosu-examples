@@ -28,33 +28,66 @@ class Example
     Gosu::button_down?(id)
   end
   
+  def self.current_source_file
+    @current_source_file
+  end
+  
+  def self.current_source_file=(current_source_file)
+    @current_source_file = current_source_file
+  end
+  
   def self.inherited(subclass)
-    @@examples ||= []
-    @@examples << subclass
+    @@examples ||= {}
+    @@examples[subclass] = self.current_source_file
   end
   
   def self.examples
-    @@examples - [Feature]
+    @@examples.keys - [Feature]
+  end
+  
+  def self.source_file
+    @@examples[self]
+  end
+  
+  def show_source
+    if file = self.class.source_file then
+      if RUBY_PLATFORM =~ /darwin[0-9]*$/ then
+        `open '#{file}'`
+      elsif RUBY_PLATFORM =~ /mingw[0-9]*$/ then
+        `explorer '#{file}'`
+      else
+        `xdg-open '#{file}'`
+      end
+    end
   end
 end
 
 
 class Feature < Example
   def self.inherited(subclass)
-    @@features ||= []
-    @@features << subclass
+    @@features ||= {}
+    @@features[subclass] = self.current_source_file
   end
   
   def self.features
-    @@features
+    @@features.keys
+  end
+  
+  def self.source_file
+    @@examples[self]
   end
 end
 
 
 Dir.chdir "#{File.dirname __FILE__}/../examples"
 
-Dir.glob("{.,../features}/tutorial.rb") do |file| # TODO - should be *.rb
+Dir.glob("{.,../features}/{welcome}.rb") do |file| # TODO - should be *.rb
   begin
+    # Remember that all examples and features being loaded now must come from the
+    # next file.
+    #
+    Example.current_source_file = File.expand_path(file)
+    
     # Load the example/feature in a sandbox module (second parameter). This way,
     # several examples can define a Player class without colliding.
     # 
@@ -103,6 +136,8 @@ class ExampleBox < Gosu::Window
     case id
     when Gosu::KbEscape
       close
+    when char_to_button_id('S')
+      @current_example.show_source
     else
       @current_example.button_down(id)
     end
