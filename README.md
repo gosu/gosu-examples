@@ -1,4 +1,4 @@
-gosu-examples
+Gosu Example
 =============
 
-An example game collection for Ruby/Gosu. Add yours by sending a PR!
+TODO: This is a work in progress - I'm not sure if it will be useful before Gosu 0.9 is released.
