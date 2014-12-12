@@ -14,14 +14,14 @@ class Welcome < (Example rescue Gosu::Window)
     text =
       "<b>Welcome to the Gosu Example Box!</b>
       
-      This little tool lets you launch any of Gosu’s example games from the menu on the right side of the screen.
+      This little tool lets you launch any of Gosu’s example games from the list on the right hand side of the screen.
       
       Every example can be run both from this tool <i>and</i> from the terminal/command line as a stand-alone Ruby script.
       
       Shortcuts:
       
       • To see the source code of an example or feature demo, press <i>S</i>.
-      • To open the folder of examples, press <i>O</i>.
+      • To open the ‘examples’ folder, press <i>O</i>.
       • To quit this tool, press <i>Esc</i>. This is useful if you are running in fullscreen mode. (gosu-examples --fullscreen)
       
       Why not take a look at this example right now? Simply press <i>S</i>."

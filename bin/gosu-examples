@@ -84,7 +84,7 @@ Dir.glob("{.,../features}/*.rb") do |file| # TODO - should be *.rb
     # Feature.features afterwards.
     # 
     load file, true
-  rescue StandardError => e
+  rescue Exception => e
     puts "*** Cannot load #{file}:"
     puts e
     puts
@@ -108,7 +108,7 @@ class ExampleBox < Gosu::Window
   end
   
   def update
-    self.caption = "Gosu Example Box - #{@current_example.caption}"
+    self.caption = "Gosu Example Box - #{@current_example.caption} (#{Gosu::fps} FPS)"
     
     @current_example.update
   end
@@ -156,6 +156,13 @@ class ExampleBox < Gosu::Window
                     0
     
     @header.draw EXAMPLE_WIDTH, 0, 0
+    
+    y = @header.height + 10
+    
+    Example.examples.each do |example|
+      @font.draw File.basename(example.source_file), EXAMPLE_WIDTH + 10, y, 0, 1, 1, Gosu::Color::BLACK
+      y += @font.height
+    end
   end
   
   def open_file_or_folder(filename)
