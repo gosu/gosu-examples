@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'gosu/preview'
+require 'gosu'
 
 WIDTH, HEIGHT = 600, 600
 

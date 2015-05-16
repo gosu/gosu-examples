@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'gosu/preview'
+require 'gosu'
 
 WIDTH, HEIGHT = 600, 600
 
@@ -11,7 +11,7 @@ class Player
   attr_reader :score
   
   def initialize
-    @image = Gosu::Image.new("media/starfighter.bmp", false)
+    @image = Gosu::Image.new("media/starfighter.bmp")
     @beep = Gosu::Sample.new("media/beep.wav")
     @x = @y = @vel_x = @vel_y = @angle = 0.0
     @score = 0
@@ -92,10 +92,10 @@ class Tutorial < (Example rescue Gosu::Window)
     @player = Player.new
     @player.warp(320, 240)
     
-    @star_anim = Gosu::Image::load_tiles("media/star.png", 25, 25, false)
+    @star_anim = Gosu::Image::load_tiles("media/star.png", 25, 25)
     @stars = Array.new
     
-    @font = Gosu::Font.new(20, :name => Gosu::default_font_name)
+    @font = Gosu::Font.new(20)
   end
   
   def update
