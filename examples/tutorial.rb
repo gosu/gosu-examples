@@ -99,13 +99,13 @@ class Tutorial < (Example rescue Gosu::Window)
   end
   
   def update
-    if button_down? Gosu::KbLeft or button_down? Gosu::GpLeft then
+    if Gosu::button_down? Gosu::KbLeft or Gosu::button_down? Gosu::GpLeft then
       @player.turn_left
     end
-    if button_down? Gosu::KbRight or button_down? Gosu::GpRight then
+    if Gosu::button_down? Gosu::KbRight or Gosu::button_down? Gosu::GpRight then
       @player.turn_right
     end
-    if button_down? Gosu::KbUp or button_down? Gosu::GpButton0 then
+    if Gosu::button_down? Gosu::KbUp or Gosu::button_down? Gosu::GpButton0 then
       @player.accelerate
     end
     @player.move

@@ -3,108 +3,32 @@
 require 'rubygems'
 require 'gosu'
 
-
-class Example
-  attr_accessor :caption
-  attr_reader :width, :height
-  
-  def initialize(width, height, *options)
-    @width, @height = width, height
-  end
-  
-  def draw
-  end
-  
-  def update
-  end
-  
-  def button_down(id)
-  end
-  
-  def button_up(id)
-  end
-  
-  def button_down?(id)
-    Gosu::button_down?(id)
-  end
-  
-  def self.current_source_file
-    @current_source_file
-  end
-  
-  def self.current_source_file=(current_source_file)
-    @current_source_file = current_source_file
-  end
-  
-  def self.inherited(subclass)
-    @@examples ||= {}
-    @@examples[subclass] = self.current_source_file
-  end
-  
-  def self.examples
-    @@examples.keys - [Feature]
-  end
-  
-  def self.source_file
-    @@examples[self]
-  end
-end
-
-
-class Feature < Example
-  def self.inherited(subclass)
-    @@features ||= {}
-    @@features[subclass] = self.current_source_file
-  end
-  
-  def self.features
-    @@features.keys
-  end
-  
-  def self.source_file
-    @@examples[self]
-  end
-end
-
-
 Dir.chdir "#{File.dirname __FILE__}/../examples"
 
-Dir.glob("{.,../features}/*.rb") do |file| # TODO - should be *.rb
-  begin
-    # Remember that all examples and features being loaded now must come from the
-    # next file.
-    #
-    Example.current_source_file = File.expand_path(file)
-    
-    # Load the example/feature in a sandbox module (second parameter). This way,
-    # several examples can define a Player class without colliding.
-    # 
-    # load() does not let us refer to the anonymous module it creates, but we
-    # can enumerate all loaded examples and features using Example.examples and
-    # Feature.features afterwards.
-    # 
-    load file, true
-  rescue Exception => e
-    puts "*** Cannot load #{file}:"
-    puts e
-    puts
-  end
-end
+require '../lib/example'
+require '../lib/sidebar'
 
+Example.load_examples "{.,../features}/*.rb" # TODO - should be *.rb
 
 class ExampleBox < Gosu::Window
   # TODO - the ExampleWindow should resize to fit once Gosu::Window#resize has been added.
   # See https://github.com/jlnr/gosu/issues/255
   EXAMPLE_WIDTH  = 600
   EXAMPLE_HEIGHT = 600
-  SIDEBAR_WIDTH  = 213
   
   def initialize
-    super SIDEBAR_WIDTH + EXAMPLE_WIDTH, EXAMPLE_HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
+    super Sidebar::WIDTH + EXAMPLE_WIDTH, EXAMPLE_HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
     
-    @header = Gosu::Image.new("media/header.psd", :tileable => true)
-    @current_example = Example::examples.sample.new
-    @font = Gosu::Font.new(20)
+    @sidebar = Sidebar.new do |example|
+      if @current_example.class != example then
+        @current_example = nil
+        GC.start
+        @current_example = example.new
+      end
+    end
+    
+    welcome_class = Example.examples.find { |example| example.name =~ /::Welcome$/ }
+    @current_example = welcome_class.new
   end
   
   def update
@@ -118,7 +42,10 @@ class ExampleBox < Gosu::Window
     
     flush
     
-    draw_sidebar
+    translate(EXAMPLE_WIDTH, 0) do
+      current_filename = @current_example.class.source_file
+      @sidebar.draw(current_filename)
+    end
   end
   
   def button_down(id)
@@ -134,7 +61,11 @@ class ExampleBox < Gosu::Window
         open_file_or_folder File.dirname(filename)
       end
     else
-      @current_example.button_down(id)
+      if id == Gosu::MsLeft and mouse_x >= EXAMPLE_WIDTH then
+        @sidebar.click(mouse_x - EXAMPLE_WIDTH, mouse_y)
+      else
+        @current_example.button_down(id)
+      end
     end
   end
   
@@ -147,23 +78,6 @@ class ExampleBox < Gosu::Window
   end
   
   private
-  
-  def draw_sidebar
-    Gosu::draw_quad EXAMPLE_WIDTH,                 0,              Gosu::Color::WHITE,
-                    EXAMPLE_WIDTH + SIDEBAR_WIDTH, 0,              Gosu::Color::WHITE,
-                    EXAMPLE_WIDTH,                 EXAMPLE_HEIGHT, Gosu::Color::WHITE,
-                    EXAMPLE_WIDTH + SIDEBAR_WIDTH, EXAMPLE_HEIGHT, Gosu::Color::WHITE,
-                    0
-    
-    @header.draw EXAMPLE_WIDTH, 0, 0
-    
-    y = @header.height + 10
-    
-    Example.examples.each do |example|
-      @font.draw File.basename(example.source_file), EXAMPLE_WIDTH + 10, y, 0, 1, 1, Gosu::Color::BLACK
-      y += @font.height
-    end
-  end
   
   def open_file_or_folder(filename)
     if RUBY_PLATFORM =~ /darwin[0-9]*$/ then

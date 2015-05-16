@@ -20,11 +20,11 @@ class Welcome < (Example rescue Gosu::Window)
       
       Shortcuts:
       
-      • To see the source code of an example or feature demo, press <i>S</i>.
-      • To open the ‘examples’ folder, press <i>O</i>.
-      • To quit this tool, press <i>Esc</i>. This is useful if you are running in fullscreen mode. (gosu-examples --fullscreen)
+      • To see the source code of an example or feature demo, press <b>S</b>.
+      • To open the ‘examples’ folder, press <b>O</b>.
+      • To quit this tool, press <b>Esc</b>. This is useful if you are running in fullscreen mode. ($ gosu-examples --fullscreen)
       
-      Why not take a look at this example right now? Simply press <i>S</i>."
+      Why not take a look at the code for this example right now? Simply press <b>S</b>."
     
     # Remove all leading spaces so the text is left-aligned
     text.gsub! /^ +/, ''
