@@ -19,13 +19,7 @@ class ExampleBox < Gosu::Window
   def initialize
     super Sidebar::WIDTH + EXAMPLE_WIDTH, EXAMPLE_HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
     
-    @sidebar = Sidebar.new do |example|
-      if @current_example.class != example then
-        @current_example = nil
-        GC.start
-        @current_example = example.new
-      end
-    end
+    @sidebar = Sidebar.new { |example| change_example(example) }
     
     welcome_class = Example.examples.find { |example| example.name =~ /::Welcome$/ }
     @current_example = welcome_class.new
@@ -78,6 +72,14 @@ class ExampleBox < Gosu::Window
   end
   
   private
+  
+  def change_example(example)
+    if @current_example.class != example then
+      @current_example = nil
+      GC.start
+      @current_example = example.new
+    end
+  end
   
   def open_file_or_folder(filename)
     if RUBY_PLATFORM =~ /darwin[0-9]*$/ then

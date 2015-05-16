@@ -1,8 +1,6 @@
-minor_version = `git rev-list master`.split.size
-
 Gem::Specification.new do |s|
   s.name        = "gosu-examples"
-  s.version     = "0.0.#{minor_version}"
+  s.version     = "0.0.1"
   s.author      = "Julian Raschke"
   s.email       = "julian@raschke.de"
   s.homepage    = "http://www.libgosu.org/"
@@ -13,8 +11,8 @@ Gem::Specification.new do |s|
                   "inspect example games written for the Gosu game development " +
                   "library."
   
-  s.add_dependency "gosu"
+  s.add_dependency "gosu", ">= 0.9.0.pre1"
   
   s.files        = %w(bin/gosu-examples LICENSE README.md) + Dir.glob("**/*.rb") + Dir.glob("examples/media/**/*")
-  s.executables  = ['gosu-examples']
+  s.executables  = %w(gosu-examples)
 end
