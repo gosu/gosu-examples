@@ -61,7 +61,7 @@ class Player
     @vy = 0 # Vertical velocity
     @map = map
     # Load all animation frames
-    @standing, @walk1, @walk2, @jump = *Gosu::Image.load_tiles("media/CptnRuby.png", 50, 50)
+    @standing, @walk1, @walk2, @jump = *Gosu::Image.load_tiles("media/cptn_ruby.png", 50, 50)
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
     @cur_image = @standing    
@@ -140,9 +140,9 @@ class Map
   
   def initialize(filename)
     # Load 60x60 tiles, 5px overlap in all four directions.
-    @tileset = Gosu::Image.load_tiles("media/CptnRuby Tileset.png", 60, 60, :tileable => true)
+    @tileset = Gosu::Image.load_tiles("media/tileset.png", 60, 60, :tileable => true)
 
-    gem_img = Gosu::Image.new("media/CptnRuby Gem.png")
+    gem_img = Gosu::Image.new("media/gem.png")
     @gems = []
 
     lines = File.readlines(filename).map { |line| line.chomp }
@@ -193,8 +193,8 @@ class CptnRuby < (Example rescue Gosu::Window)
     
     self.caption = "Cptn. Ruby"
     
-    @sky = Gosu::Image.new("media/Space.png", :tileable => true)
-    @map = Map.new("media/CptnRuby Map.txt")
+    @sky = Gosu::Image.new("media/space.png", :tileable => true)
+    @map = Map.new("media/cptn_ruby_map.txt")
     @cptn = Player.new(@map, 400, 100)
     # The scrolling position is stored as top left corner of the screen.
     @camera_x = @camera_y = 0
@@ -207,8 +207,8 @@ class CptnRuby < (Example rescue Gosu::Window)
     @cptn.update(move_x)
     @cptn.collect_gems(@map.gems)
     # Scrolling follows player
-    @camera_x = [[@cptn.x - 320, 0].max, @map.width * 50 - 640].min
-    @camera_y = [[@cptn.y - 240, 0].max, @map.height * 50 - 480].min
+    @camera_x = [[@cptn.x - WIDTH / 2, 0].max, @map.width * 50 - WIDTH].min
+    @camera_y = [[@cptn.y - HEIGHT / 2, 0].max, @map.height * 50 - HEIGHT].min
   end
   
   def draw
