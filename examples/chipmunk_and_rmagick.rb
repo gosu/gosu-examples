@@ -23,7 +23,7 @@ NUM_POLYGONS = 80
 NUM_SIDES = 4
 EDGE_SIZE = 15
 
-class MoreChipmunkAndRMagick < (Example rescue Gosu::Window)
+class ChipmunkAndRMagick < (Example rescue Gosu::Window)
   def radians_to_vec2(radians)
     CP::Vec2.new(Math::cos(radians), Math::sin(radians))
   end
@@ -38,7 +38,7 @@ class MoreChipmunkAndRMagick < (Example rescue Gosu::Window)
     @space.gravity = CP::Vec2.new(0, 100)
     
     # you can replace the background with any image with this line
-    # background = Magick::ImageList.new("media/Space.png")
+    # background = Magick::ImageList.new("media/space.png")
     fill = Magick::TextureFill.new(Magick::ImageList.new("granite:"))
     background = Magick::Image.new(WIDTH, HEIGHT, fill)
     setup_triangles(background)
@@ -149,4 +149,4 @@ class Box
   end
 end
 
-MoreChipmunkAndRMagick.new.show if __FILE__ == $0
+ChipmunkAndRMagick.new.show if __FILE__ == $0

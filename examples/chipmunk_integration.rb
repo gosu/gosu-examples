@@ -31,7 +31,7 @@ class Player
   attr_reader :shape
 
   def initialize(shape)
-    @image = Gosu::Image.new("media/Starfighter.bmp")
+    @image = Gosu::Image.new("media/starfighter.bmp")
     @shape = shape
     @shape.body.p = CP::Vec2.new(0.0, 0.0) # position
     @shape.body.v = CP::Vec2.new(0.0, 0.0) # velocity
@@ -108,7 +108,7 @@ class Star
   
   def initialize(animation, shape)
     @animation = animation
-    @color = Gosu::Color.new(0xff000000)
+    @color = Gosu::Color.new(0xff_000000)
     @color.red = rand(255 - 40) + 40
     @color.green = rand(255 - 40) + 40
     @color.blue = rand(255 - 40) + 40
@@ -132,10 +132,10 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
     
     self.caption = "Gosu & Chipmunk Integration Demo"
     
-    @background_image = Gosu::Image.new("media/Space.png", :tileable => true)
+    @background_image = Gosu::Image.new("media/space.png", :tileable => true)
 
     # Put the beep here, as it is the environment now that determines collision
-    @beep = Gosu::Sample.new("media/Beep.wav")
+    @beep = Gosu::Sample.new("media/beep.wav")
     
     # Put the score here, as it is the environment that tracks this now
     @score = 0
@@ -172,7 +172,7 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
     @player = Player.new(shape)
     @player.warp(CP::Vec2.new(320, 240)) # move to the center of the window
     
-    @star_anim = Gosu::Image.load_tiles("media/Star.png", 25, 25)
+    @star_anim = Gosu::Image.load_tiles("media/star.png", 25, 25)
     @stars = Array.new
         
     # Here we define what is supposed to happen when a Player (ship) collides with a Star

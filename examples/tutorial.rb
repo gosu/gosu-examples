@@ -68,7 +68,7 @@ class Star
   
   def initialize(animation)
     @animation = animation
-    @color = Gosu::Color.new(0xff000000)
+    @color = Gosu::Color.new(0xff_000000)
     @color.red = rand(256 - 40) + 40
     @color.green = rand(256 - 40) + 40
     @color.blue = rand(256 - 40) + 40
@@ -122,7 +122,7 @@ class Tutorial < (Example rescue Gosu::Window)
     @background_image.draw(0, 0, ZOrder::Background)
     @player.draw
     @stars.each { |star| star.draw }
-    @font.draw("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xffffff00)
+    @font.draw("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
   end
 end
 
