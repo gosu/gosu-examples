@@ -299,7 +299,7 @@ end
 class Particle
   def initialize(window, x, y)
     # All Particle instances use the same image
-    @@image ||= Gosu::Image.new(window, 'media/smoke.png', false)
+    @@image ||= Gosu::Image.new('media/smoke.png')
     
     @x, @y = x, y
     @color = Gosu::Color.new(255, 255, 255, 255)
@@ -327,10 +327,10 @@ end
 # Finally, the class that ties it all together.
 # Very straightforward implementation.
 
-class RMagickIntegration < Gosu::Window
+class RMagickIntegration < (Example rescue Gosu::Window)
   attr_reader :map, :objects
   
-  def initialize()
+  def initialize
     super WIDTH, HEIGHT
     
     self.caption = "RMagick Integration Demo"
@@ -350,7 +350,7 @@ class RMagickIntegration < Gosu::Window
 
     # Create everything!
     @map = Map.new
-    @players = [Player.new(self, 200, 40, 0xff_308000), Player.new(self, 600, 40, 0xff_803000)]
+    @players = [Player.new(self, 100, 40, 0xff_308000), Player.new(self, WIDTH - 100, 40, 0xff_803000)]
     @objects = @players.dup
     
     # Let any player start.
