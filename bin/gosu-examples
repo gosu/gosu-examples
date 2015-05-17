@@ -5,7 +5,8 @@ require 'gosu'
 
 Dir.chdir "#{File.dirname __FILE__}/../examples"
 
-$LOAD_PATH << "#{File.dirname __FILE__}/../lib"
+$LOAD_PATH << "#{File.dirname __FILE__}/../lib/gosu-examples"
+
 require 'example'
 require 'sidebar'
 
