@@ -15,7 +15,7 @@
 
 require 'rubygems'
 require 'gosu'
-require 'RMagick'
+require 'rmagick'
 
 WIDTH, HEIGHT = 600, 600
 
