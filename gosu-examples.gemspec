@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "gosu-examples"
-  s.version     = "1.0.0"
+  s.version     = "1.0.1"
   s.author      = "Julian Raschke"
   s.email       = "julian@raschke.de"
   s.homepage    = "http://www.libgosu.org/"

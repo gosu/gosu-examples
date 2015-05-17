@@ -5,8 +5,9 @@ require 'gosu'
 
 Dir.chdir "#{File.dirname __FILE__}/../examples"
 
-require '../lib/example'
-require '../lib/sidebar'
+$LOAD_PATH << "#{File.dirname __FILE__}/../lib"
+require 'example'
+require 'sidebar'
 
 Example.load_examples "{.,../features}/*.rb" # TODO - should be *.rb
 
