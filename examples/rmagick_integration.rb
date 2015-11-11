@@ -48,7 +48,7 @@ class Map
     # Map is open at the top.
     return false if y < 0
     # Map is closed on all other sides.
-    return true if x < 0 or x >= WIDTH or y >= HEIGHT
+    return true if x < 0 || x >= WIDTH || y >= HEIGHT
     # Inside of the map, determine solidity from the map image.
     @image.pixel_color(x, y) != NULL_PIXEL
   end
@@ -225,8 +225,7 @@ class Player
     # First, magically move up (so soldiers can run up hills)
     2.times { @y -= 1 unless @window.map.solid?(x, y - HEIGHT - 1) }
     # Now move into the desired direction.
-    @x += dir unless @window.map.solid?(x + dir, y) or
-                     @window.map.solid?(x + dir, y - HEIGHT) 
+    @x += dir unless @window.map.solid?(x + dir, y) || @window.map.solid?(x + dir, y - HEIGHT)
     # To make up for unnecessary movement upwards, sink downward again.
     2.times { @y += 1 unless @window.map.solid?(x, y + 1) }
   end
@@ -271,7 +270,7 @@ class Missile
     @y += @vy
     @vy += 1
     # Hit anything?
-    if @window.map.solid?(x, y) or @window.objects.any? { |o| o.hit_by?(self) } then
+    if @window.map.solid?(x, y) || @window.objects.any? { |o| o.hit_by?(self) }
       # Create great particles.
       5.times { @window.objects << Particle.new(@window, x - 25 + rand(51), y - 25 + rand(51)) }
       @window.map.blast(x, y)

@@ -234,7 +234,7 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
       end
       
       if Gosu::button_down? Gosu::KbUp
-        if Gosu::button_down?(Gosu::KbRightShift) or Gosu::button_down?(Gosu::KbLeftShift)
+        if Gosu::button_down?(Gosu::KbRightShift) || Gosu::button_down?(Gosu::KbLeftShift)
           @player.boost
         else
           @player.accelerate

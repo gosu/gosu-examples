@@ -199,11 +199,11 @@ class OpenGLIntegration < (Example rescue Gosu::Window)
   end
   
   def update
-    @player.move_left if Gosu::button_down? Gosu::KbLeft or Gosu::button_down? Gosu::GpLeft
-    @player.move_right if Gosu::button_down? Gosu::KbRight or Gosu::button_down? Gosu::GpRight
-    @player.accelerate if Gosu::button_down? Gosu::KbUp or Gosu::button_down? Gosu::GpUp
-    @player.brake if Gosu::button_down? Gosu::KbDown or Gosu::button_down? Gosu::GpDown
-    
+    @player.move_left if Gosu::button_down?(Gosu::KbLeft) || Gosu::button_down?(Gosu::GpLeft)
+    @player.move_right if Gosu::button_down?(Gosu::KbRight) || Gosu::button_down?(Gosu::GpRight)
+    @player.accelerate if Gosu::button_down?(Gosu::KbUp) || Gosu::button_down?(Gosu::GpUp)
+    @player.brake if Gosu::button_down?(Gosu::KbDown) || Gosu::button_down?(Gosu::GpDown)
+
     @player.collect_stars(@stars)
     
     @stars.reject! { |star| !star.update }

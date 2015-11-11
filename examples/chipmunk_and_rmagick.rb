@@ -139,7 +139,7 @@ class Box
   # If it goes offscreen we put it back to the top.
   def check_off_screen
     pos = @body.p
-    if pos.y > HEIGHT + EDGE_SIZE or pos.x > WIDTH + EDGE_SIZE or pos.x < -EDGE_SIZE
+    if pos.y > HEIGHT + EDGE_SIZE || pos.x > WIDTH + EDGE_SIZE || pos.x < -EDGE_SIZE
       @body.p = CP::Vec2.new(rand * WIDTH, 0)
     end
   end
