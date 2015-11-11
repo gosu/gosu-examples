@@ -27,16 +27,16 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
   def radians_to_vec2(radians)
     CP::Vec2.new(Math::cos(radians), Math::sin(radians))
   end
-  
+
   def initialize
     super WIDTH, HEIGHT
-    
+
     self.caption = "Chipmunk, RMagick and Gosu"
-    
+
     @space = CP::Space.new
     @space.iterations = 5
     @space.gravity = CP::Vec2.new(0, 100)
-    
+
     # you can replace the background with any image with this line
     # background = Magick::ImageList.new("media/space.png")
     fill = Magick::TextureFill.new(Magick::ImageList.new("granite:"))
@@ -45,7 +45,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
     @background_image = Gosu::Image.new(background, :tileable => true) # turn the image into a Gosu one
     @boxes = create_boxes(NUM_POLYGONS)
   end
-  
+
   # Create all of the static triangles.
   # Adds them to the space and the background image.
   def setup_triangles(background)
@@ -84,7 +84,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
     end
     return vertices
   end
-  
+
   # Produces the image of a polygon.
   def polygon_image(vertices)
     box_image = Magick::Image.new(EDGE_SIZE  * 2, EDGE_SIZE * 2) { self.background_color = 'transparent' }
@@ -96,7 +96,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
     gc.draw(box_image)
     return Gosu::Image.new(box_image)
   end
-  
+
   # Produces the polygon objects and adds them to the space.
   def create_boxes(num)
     box_vertices = polygon_vertices(NUM_SIDES, EDGE_SIZE)
@@ -110,17 +110,17 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
       shape.u = 0.4
       boxes << Box.new(box_image, body)
       @space.add_body(body)
-      @space.add_shape(shape)      
+      @space.add_shape(shape)
     end
     return boxes
   end
-  
+
   # All the simulation is done here.
   def update
     @space.step(TICK)
     @boxes.each { |box| box.check_off_screen }
   end
-  
+
   # All the updating of the screen is done here.
   def draw
     @background_image.draw(0, 0, ZOrder::Background)
@@ -135,7 +135,7 @@ class Box
     @image = image
     @body = body
   end
-  
+
   # If it goes offscreen we put it back to the top.
   def check_off_screen
     pos = @body.p
@@ -143,7 +143,7 @@ class Box
       @body.p = CP::Vec2.new(rand * WIDTH, 0)
     end
   end
-  
+
   def draw
     @image.draw_rot(@body.p.x, @body.p.y, ZOrder::Box, @body.a.radians_to_gosu)
   end

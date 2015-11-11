@@ -7,8 +7,8 @@ To run the examples, simply install the `gosu-examples` Ruby gem and then run `g
 
 Some examples require the following libraries to be installed:
 
-`gem install chipmunk`
-`gem install rmagick`
-`gem install opengl`
+    gem install chipmunk
+    gem install rmagick
+    gem install opengl
 
 (This is a very rough first version of this gem. Feel free to contribute to all parts of this repository via Pull Requests - media files, more examples, cleaning up code... - as long as we can use your contributions under the MIT license.)

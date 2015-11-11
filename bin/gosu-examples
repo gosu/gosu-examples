@@ -17,33 +17,33 @@ class ExampleBox < Gosu::Window
   # See https://github.com/jlnr/gosu/issues/255
   EXAMPLE_WIDTH  = 600
   EXAMPLE_HEIGHT = 600
-  
+
   def initialize
     super Sidebar::WIDTH + EXAMPLE_WIDTH, EXAMPLE_HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
-    
+
     @sidebar = Sidebar.new { |example| change_example(example) }
-    
+
     welcome_class = Example.examples.find { |example| example.name =~ /::Welcome$/ }
     @current_example = welcome_class.new
   end
-  
+
   def update
     self.caption = "Gosu Example Box - #{@current_example.caption} (#{Gosu::fps} FPS)"
-    
+
     @current_example.update
   end
-  
+
   def draw
     @current_example.draw
-    
+
     flush
-    
+
     translate(EXAMPLE_WIDTH, 0) do
       current_filename = @current_example.class.source_file
       @sidebar.draw(current_filename)
     end
   end
-  
+
   def button_down(id)
     case id
     when Gosu::KbEscape
@@ -64,17 +64,17 @@ class ExampleBox < Gosu::Window
       end
     end
   end
-  
+
   def button_up(id)
     @current_example.button_up(id)
   end
-  
+
   def needs_cursor?
     true
   end
-  
+
   private
-  
+
   def change_example(example)
     if @current_example.class != example then
       @current_example = nil
@@ -82,7 +82,7 @@ class ExampleBox < Gosu::Window
       @current_example = example.new
     end
   end
-  
+
   def open_file_or_folder(filename)
     if RUBY_PLATFORM =~ /darwin[0-9]*$/ then
       `open '#{filename}'`
