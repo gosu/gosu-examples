@@ -68,19 +68,19 @@ class Player
   # forward momentum by creating a vector in the direction of the facing
   # and with a magnitude representing the force we want to apply
   def accelerate
-    @shape.body.apply_force((radians_to_vec2(@shape.body.a) * (3000.0/SUBSTEPS)), CP::Vec2.new(0.0, 0.0))
+    @shape.body.apply_force(@shape.body.rot * (3000.0/SUBSTEPS), CP::Vec2.new(0.0, 0.0))
   end
   
   # Apply even more forward force
   # See accelerate for more details
   def boost
-    @shape.body.apply_force((radians_to_vec2(@shape.body.a) * (3000.0)), CP::Vec2.new(0.0, 0.0))
+    @shape.body.apply_force(@shape.body.rot * (3000.0), CP::Vec2.new(0.0, 0.0))
   end
   
   # Apply reverse force
   # See accelerate for more details
   def reverse
-    @shape.body.apply_force(-(radians_to_vec2(@shape.body.a) * (1000.0/SUBSTEPS)), CP::Vec2.new(0.0, 0.0))
+    @shape.body.apply_force(-@shape.body.rot * (1000.0/SUBSTEPS), CP::Vec2.new(0.0, 0.0))
   end
   
   # Wrap to the other side of the screen when we fly off the edge
@@ -91,13 +91,6 @@ class Player
   
   def draw
     @image.draw_rot(@shape.body.p.x, @shape.body.p.y, ZOrder::Player, @shape.body.a.radians_to_gosu)
-  end
-  
-  private
-  
-  # Convenience method for converting from radians to a Vec2 vector.
-  def radians_to_vec2(radians)
-    CP::Vec2.new(Math::cos(radians), Math::sin(radians))
   end
 end
 
@@ -115,7 +108,7 @@ class Star
     @shape = shape
     @shape.body.p = CP::Vec2.new(rand * WIDTH, rand * HEIGHT) # position
     @shape.body.v = CP::Vec2.new(0.0, 0.0) # velocity
-    @shape.body.a = (3*Math::PI/2.0) # angle in radians; faces towards top of screen
+    @shape.body.a = 0.gosu_to_radians # faces towards top of screen
   end
 
   def draw  
