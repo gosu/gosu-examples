@@ -87,7 +87,7 @@ class ExampleBox < Gosu::Window
     if RUBY_PLATFORM =~ /darwin[0-9]*$/
       `open '#{filename}'`
     elsif RUBY_PLATFORM =~ /mingw[0-9]*$/
-      `explorer '#{filename}'`
+      `explorer "#{filename.gsub('/', '\\')}"`
     else
       `xdg-open '#{filename}'`
     end
