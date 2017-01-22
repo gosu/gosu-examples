@@ -17,7 +17,7 @@ require 'rubygems'
 require 'gosu'
 require 'rmagick'
 
-WIDTH, HEIGHT = 600, 600
+WIDTH, HEIGHT = 640, 480
 
 NULL_PIXEL = Magick::Pixel.from_color('none')
 

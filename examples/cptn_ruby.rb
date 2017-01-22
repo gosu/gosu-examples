@@ -30,7 +30,7 @@
 require 'rubygems'
 require 'gosu'
 
-WIDTH, HEIGHT = 600, 600
+WIDTH, HEIGHT = 640, 480
 
 module Tiles
   Grass = 0

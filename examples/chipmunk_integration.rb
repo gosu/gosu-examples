@@ -12,8 +12,8 @@ require 'rubygems'
 require 'gosu'
 require 'chipmunk'
 
-WIDTH = 600
-HEIGHT = 600
+WIDTH = 640
+HEIGHT = 480
 
 # The number of steps to process every Gosu update
 # The Player ship can get going so fast as to "move through" a
@@ -262,7 +262,7 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
   end
 
   def button_down(id)
-    if id == Gosu::KbEscape
+    if id == Gosu::KB_ESCAPE
       close
     else
       super
