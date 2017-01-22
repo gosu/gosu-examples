@@ -156,7 +156,7 @@ class Player
   end
   
   def draw
-    if dead then
+    if dead
       # Poor, broken soldier.
       @@images[0].draw_rot(x, y, 0, 290 * @dir, 0.5, 0.65, @dir * 0.5, 0.5, @color)
       @@images[2].draw_rot(x, y, 0, 160 * @dir, 0.95, 0.5, 0.5, @dir * 0.5, @color)
@@ -164,7 +164,7 @@ class Player
       # Was moved last frame?
       if @show_walk_anim
         # Yes: Display walking animation.
-        frame = Gosu::milliseconds / 200 % 2
+        frame = Gosu.milliseconds / 200 % 2
       else
         # No: Stand around (boring).
         frame = 0
@@ -185,7 +185,7 @@ class Player
     # Gravity.
     @vy += 1
     
-    if @vy > 1 then
+    if @vy > 1
       # Move upwards until hitting something.
       @vy.times do
         if @window.map.solid?(x, y + 1)
@@ -240,7 +240,7 @@ class Player
   end
   
   def hit_by? missile
-    if Gosu::distance(missile.x, missile.y, x, y) < 30 then
+    if Gosu.distance(missile.x, missile.y, x, y) < 30
       # Was hit :(
       @dead = true
       return true
@@ -260,7 +260,7 @@ class Missile
   
   def initialize(window, x, y, angle)
     # Horizontal/vertical velocity.
-    @vx, @vy = Gosu::offset_x(angle, 20).to_i, Gosu::offset_y(angle, 20).to_i
+    @vx, @vy = Gosu.offset_x(angle, 20).to_i, Gosu.offset_y(angle, 20).to_i
     
     @window, @x, @y = window, x + @vx, y + @vy
   end
@@ -271,7 +271,7 @@ class Missile
     @y += @vy
     @vy += 1
     # Hit anything?
-    if @window.map.solid?(x, y) or @window.objects.any? { |o| o.hit_by?(self) } then
+    if @window.map.solid?(x, y) or @window.objects.any? { |o| o.hit_by?(self) }
       # Create great particles.
       5.times { @window.objects << Particle.new(@window, x - 25 + rand(51), y - 25 + rand(51)) }
       @window.map.blast(x, y)
@@ -285,7 +285,7 @@ class Missile
   
   def draw
     # Just draw a small rectangle.
-    Gosu::draw_rect x-2, y-2, 4, 4, 0xff_800000
+    Gosu.draw_rect x-2, y-2, 4, 4, 0xff_800000
   end
   
   def hit_by?(missile)
@@ -370,7 +370,7 @@ class RMagickIntegration < (Example rescue Gosu::Window)
     cur_text = @player_instructions[@current_player] if not @waiting
     cur_text = @player_won_messages[1 - @current_player] if @players[@current_player].dead
     
-    if cur_text then
+    if cur_text
       x, y = 0, 30
       cur_text.draw(x - 1, y, 0, 1, 1, 0xff_000000)
       cur_text.draw(x + 1, y, 0, 1, 1, 0xff_000000)
@@ -389,22 +389,24 @@ class RMagickIntegration < (Example rescue Gosu::Window)
     @objects.reject! { |o| o.update == false }
 
     # If it's a player's turn, forward controls.
-    if not @waiting and not @players[@current_player].dead then
+    if not @waiting and not @players[@current_player].dead
       player = @players[@current_player]
-      player.aim_up       if Gosu::button_down? Gosu::KbUp
-      player.aim_down     if Gosu::button_down? Gosu::KbDown
-      player.try_walk(-1) if Gosu::button_down? Gosu::KbLeft
-      player.try_walk(+1) if Gosu::button_down? Gosu::KbRight
-      player.try_jump     if Gosu::button_down? Gosu::KbReturn
+      player.aim_up       if Gosu.button_down? Gosu::KB_UP
+      player.aim_down     if Gosu.button_down? Gosu::KB_DOWN
+      player.try_walk(-1) if Gosu.button_down? Gosu::KB_LEFT
+      player.try_walk(+1) if Gosu.button_down? Gosu::KB_RIGHT
+      player.try_jump     if Gosu.button_down? Gosu::KB_RETURN
     end
   end
   
   def button_down(id)
-    if id == Gosu::KbSpace and not @waiting and not @players[@current_player].dead then
+    if id == Gosu::KB_SPACE and not @waiting and not @players[@current_player].dead
       # Shoot! This is handled in button_down because holding space shouldn't auto-fire.
       @players[@current_player].shoot
       @current_player = 1 - @current_player
       @waiting = true
+    else
+      super
     end
   end
 end

@@ -19,7 +19,7 @@ class Sidebar
       text_color = Gosu::Color::BLACK
       
       if is_current
-        Gosu::draw_rect 0, @top, Sidebar::WIDTH, HEIGHT, 0xff_1565e5 if is_current
+        Gosu.draw_rect 0, @top, Sidebar::WIDTH, HEIGHT, 0xff_1565e5 if is_current
         text_color = Gosu::Color::WHITE
       end
       
@@ -44,7 +44,7 @@ class Sidebar
   end
   
   def draw(current_filename)
-    Gosu::draw_rect 0, 0, WIDTH, HEIGHT, Gosu::Color::WHITE
+    Gosu.draw_rect 0, 0, WIDTH, HEIGHT, Gosu::Color::WHITE
     HEADER.draw 0, 0, 0
     
     @buttons.each do |button|

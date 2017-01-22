@@ -1,14 +1,28 @@
 Gosu Examples
 =============
 
-This is a collection of Ruby example games for the [Gosu media library](https://libgosu.org/).
+This is a collection of Ruby example games for the [Gosu library](https://www.libgosu.org/).
 
-To run the examples, simply install the `gosu-examples` Ruby gem and then run `gosu-examples` in the terminal.
+(You can find C++ examples in the [main gosu repository](https://github.com/gosu/gosu/tree/master/examples).)
 
-Some examples require the following libraries to be installed:
+To install and run the `gosu-examples` gem:
 
-`gem install chipmunk`
-`gem install rmagick`
-`gem install opengl`
+```bash
+gem install gosu-examples
+gosu-examples
+```
 
-(This is a very rough first version of this gem. Feel free to contribute to all parts of this repository via Pull Requests - media files, more examples, cleaning up code... - as long as we can use your contributions under the MIT license.)
+You can also [download and unpack this repository](https://github.com/gosu/gosu-examples/archive/master.zip) and then run individual examples from the terminal:
+
+```bash
+cd gosu-examples-master/examples
+ruby tutorial.rb
+```
+
+Some examples require the following additional libraries:
+
+```bash
+gem install chipmunk
+gem install rmagick
+gem install opengl
+```

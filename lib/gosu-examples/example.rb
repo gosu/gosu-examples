@@ -17,24 +17,11 @@ class Example
   
   def button_up(id)
   end
-end
-
-class Feature < Example
-  def self.inherited(subclass)
-    @@features ||= {}
-    @@features[subclass] = self.current_source_file
-  end
   
-  def self.features
-    @@features.keys
+  def close
+    # no-op, examples cannot close the containing window.
   end
-  
-  def self.source_file
-    @@examples[self]
-  end
-end
 
-class Example
   def self.current_source_file
     @current_source_file
   end
@@ -49,7 +36,7 @@ class Example
   end
   
   def self.examples
-    @@examples.keys - [Feature]
+    @@examples.keys
   end
   
   def self.source_file
@@ -59,18 +46,14 @@ class Example
   def self.load_examples(pattern)
     Dir.glob(pattern) do |file| 
       begin
-        # Remember that all examples and features being loaded now must come from the
-        # next file.
-        #
+        # Remember which file we are loading.
         Example.current_source_file = File.expand_path(file)
 
-        # Load the example/feature in a sandbox module (second parameter). This way,
-        # several examples can define a Player class without colliding.
+        # Load the example in a sandbox module (second parameter to load()). This way, examples can
+        # define classes and constants with the same names, and they will not collide.
         # 
-        # load() does not let us refer to the anonymous module it creates, but we
-        # can enumerate all loaded examples and features using Example.examples and
-        # Feature.features afterwards.
-        # 
+        # load() does not let us refer to the anonymous module it creates, but we can enumerate all
+        # loaded examples using Example.examples thanks to the "inherited" callback above.
         load file, true
       rescue Exception => e
         puts "*** Cannot load #{file}:"

@@ -10,25 +10,20 @@ $LOAD_PATH << "#{File.dirname __FILE__}/../lib/gosu-examples"
 require 'example'
 require 'sidebar'
 
-Example.load_examples "{.,../features}/*.rb" # TODO - should be *.rb
+Example.load_examples "*.rb"
 
 class ExampleBox < Gosu::Window
-  # TODO - the ExampleWindow should resize to fit once Gosu::Window#resize has been added.
-  # See https://github.com/jlnr/gosu/issues/255
-  EXAMPLE_WIDTH  = 600
-  EXAMPLE_HEIGHT = 600
-  
   def initialize
-    super Sidebar::WIDTH + EXAMPLE_WIDTH, EXAMPLE_HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
+    super Sidebar::WIDTH, 1, :fullscreen => ARGV.include?('--fullscreen')
     
     @sidebar = Sidebar.new { |example| change_example(example) }
     
     welcome_class = Example.examples.find { |example| example.name =~ /::Welcome$/ }
-    @current_example = welcome_class.new
+    change_example(welcome_class)
   end
   
   def update
-    self.caption = "Gosu Example Box - #{@current_example.caption} (#{Gosu::fps} FPS)"
+    self.caption = "Gosu Example Box - #{@current_example.caption} (#{Gosu.fps} FPS)"
     
     @current_example.update
   end
@@ -36,9 +31,9 @@ class ExampleBox < Gosu::Window
   def draw
     @current_example.draw
     
-    flush
+    Gosu.flush
     
-    translate(EXAMPLE_WIDTH, 0) do
+    Gosu.translate(@current_example.width, 0) do
       current_filename = @current_example.class.source_file
       @sidebar.draw(current_filename)
     end
@@ -46,23 +41,26 @@ class ExampleBox < Gosu::Window
   
   def button_down(id)
     case id
-    when Gosu::KbEscape
+    when Gosu::KB_ESCAPE
       close
-    when char_to_button_id('S')
-      if filename = @current_example.class.source_file then
+    when Gosu.char_to_button_id('E')
+      if filename = @current_example.class.source_file
         open_file_or_folder filename
       end
-    when char_to_button_id('O')
-      if filename = @current_example.class.source_file then
+    when Gosu.char_to_button_id('O')
+      if filename = @current_example.class.source_file
         open_file_or_folder File.dirname(filename)
       end
     else
-      if id == Gosu::MsLeft and mouse_x >= EXAMPLE_WIDTH then
-        @sidebar.click(mouse_x - EXAMPLE_WIDTH, mouse_y)
+      if id == Gosu::MS_LEFT and mouse_x >= @current_example.width
+        @sidebar.click(mouse_x - @current_example.width, mouse_y)
       else
         @current_example.button_down(id)
       end
     end
+    
+    # Call super to enable alt+enter/cmd+F for toggling fullscreen mode.
+    super
   end
   
   def button_up(id)
@@ -76,17 +74,19 @@ class ExampleBox < Gosu::Window
   private
   
   def change_example(example)
-    if @current_example.class != example then
+    if @current_example.class != example
       @current_example = nil
       GC.start
       @current_example = example.new
+      self.width = @current_example.width + Sidebar::WIDTH
+      self.height = @current_example.height
     end
   end
   
   def open_file_or_folder(filename)
-    if RUBY_PLATFORM =~ /darwin[0-9]*$/ then
+    if RUBY_PLATFORM =~ /darwin[0-9]*$/
       `open '#{filename}'`
-    elsif RUBY_PLATFORM =~ /mingw[0-9]*$/ then
+    elsif RUBY_PLATFORM =~ /mingw[0-9]*$/
       `explorer '#{filename}'`
     else
       `xdg-open '#{filename}'`

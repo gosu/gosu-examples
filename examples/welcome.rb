@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'gosu'
 
-WIDTH, HEIGHT = 600, 600
+WIDTH, HEIGHT = 640, 480
 
 class Welcome < (Example rescue Gosu::Window)
   PADDING = 20
@@ -20,11 +20,12 @@ class Welcome < (Example rescue Gosu::Window)
       
       Every example can be run both from this tool <i>and</i> from the terminal/command line as a stand-alone Ruby script.
       
-      Shortcuts:
+      Keyboard shortcuts:
       
-      • To see the source code of an example or feature demo, press <b>S</b>.
+      • To see the source code of an example or feature demo, press <b>E</b>.
       • To open the ‘examples’ folder, press <b>O</b>.
-      • To quit this tool, press <b>Esc</b>. This is useful if you are running in fullscreen mode. ($ gosu-examples --fullscreen)
+      • To quit this tool, press <b>Esc</b>.
+      • To toggle fullscreen mode, press <b>Alt+Enter</b> (Windows, Linux) or <b>cmd+F</b> (macOS).
       
       Why not take a look at the code for this example right now? Simply press <b>S</b>."
     
@@ -46,8 +47,8 @@ class Welcome < (Example rescue Gosu::Window)
     # Disregard the math in this method, it doesn't look as good as I thought it
     # would. =(
     
-    angle = Gosu::milliseconds / 50.0
-    scale = (Gosu::milliseconds % 1000) / 1000.0
+    angle = Gosu.milliseconds / 50.0
+    scale = (Gosu.milliseconds % 1000) / 1000.0
     
     [1, 0].each do |extra_scale|
       @background.draw_rot WIDTH * 0.5, HEIGHT * 0.75, 0, angle, 0.5, 0.5,

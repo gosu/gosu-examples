@@ -13,7 +13,7 @@ require 'rmagick'
 
 # Layering of sprites
 module ZOrder
-  Background, Box = *0..1
+  BACKGROUND, BOX = *0..1
 end
 
 WIDTH = 600
@@ -63,7 +63,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
       8.times do |j|
         stagger = (j % 2) * 40
         x = i * 80 + stagger
-        y =  j * 70 + 80
+        y = j * 70 + 80
         shape = CP::Shape::Poly.new(body, shape_vertices, CP::Vec2.new(x, y))
         shape.e = 1
         shape.u = 1
@@ -123,7 +123,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
   
   # All the updating of the screen is done here.
   def draw
-    @background_image.draw(0, 0, ZOrder::Background)
+    @background_image.draw(0, 0, ZOrder::BACKGROUND)
     @boxes.each { |box| box.draw }
   end
 end
@@ -145,7 +145,7 @@ class Box
   end
   
   def draw
-    @image.draw_rot(@body.p.x, @body.p.y, ZOrder::Box, @body.a.radians_to_gosu)
+    @image.draw_rot(@body.p.x, @body.p.y, ZOrder::BOX, @body.a.radians_to_gosu)
   end
 end
 

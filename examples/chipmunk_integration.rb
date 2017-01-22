@@ -112,7 +112,7 @@ class Star
   end
 
   def draw  
-    img = @animation[Gosu::milliseconds / 100 % @animation.size];
+    img = @animation[Gosu.milliseconds / 100 % @animation.size];
     img.draw(@shape.body.p.x - img.width / 2.0, @shape.body.p.y - img.height / 2.0, ZOrder::Stars, 1, 1, @color, :add)
   end
 end
@@ -219,20 +219,20 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
       @player.validate_position
       
       # Check keyboard
-      if Gosu::button_down? Gosu::KbLeft
+      if Gosu.button_down? Gosu::KB_LEFT
         @player.turn_left
       end
-      if Gosu::button_down? Gosu::KbRight
+      if Gosu.button_down? Gosu::KB_RIGHT
         @player.turn_right
       end
       
-      if Gosu::button_down? Gosu::KbUp
-        if Gosu::button_down?(Gosu::KbRightShift) or Gosu::button_down?(Gosu::KbLeftShift)
+      if Gosu.button_down? Gosu::KB_UP
+        if Gosu.button_down?(Gosu::KB_RIGHT_SHIFT) or Gosu.button_down?(Gosu::KB_LEFT_SHIFT)
           @player.boost
         else
           @player.accelerate
         end
-      elsif Gosu::button_down? Gosu::KbDown
+      elsif Gosu.button_down? Gosu::KB_DOWN
         @player.reverse
       end
       
@@ -242,7 +242,7 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
     end
     
     # Each update (not SUBSTEP) we see if we need to add more Stars
-    if rand(100) < 4 and @stars.size < 25 then
+    if rand(100) < 4 and @stars.size < 25
       body = CP::Body.new(0.0001, 0.0001)
       shape = CP::Shape::Circle.new(body, 25/2, CP::Vec2.new(0.0, 0.0))
       shape.collision_type = :star
@@ -264,6 +264,8 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
   def button_down(id)
     if id == Gosu::KbEscape
       close
+    else
+      super
     end
   end
 end

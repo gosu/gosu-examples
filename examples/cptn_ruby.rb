@@ -47,7 +47,7 @@ class CollectibleGem
   
   def draw
     # Draw, slowly rotating
-    @image.draw_rot(@x, @y, 0, 25 * Math.sin(Gosu::milliseconds / 133.7))
+    @image.draw_rot(@x, @y, 0, 25 * Math.sin(Gosu.milliseconds / 133.7))
   end
 end
 
@@ -69,7 +69,7 @@ class Player
   
   def draw
     # Flip vertically when facing to the left.
-    if @dir == :left then
+    if @dir == :left
       offs_x = -25
       factor = 1.0
     else
@@ -91,18 +91,18 @@ class Player
     if (move_x == 0)
       @cur_image = @standing
     else
-      @cur_image = (Gosu::milliseconds / 175 % 2 == 0) ? @walk1 : @walk2
+      @cur_image = (Gosu.milliseconds / 175 % 2 == 0) ? @walk1 : @walk2
     end
     if (@vy < 0)
       @cur_image = @jump
     end
     
     # Directional walking, horizontal movement
-    if move_x > 0 then
+    if move_x > 0
       @dir = :right
       move_x.times { if would_fit(1, 0) then @x += 1 end }
     end
-    if move_x < 0 then
+    if move_x < 0
       @dir = :left
       (-move_x).times { if would_fit(-1, 0) then @x -= 1 end }
     end
@@ -112,16 +112,16 @@ class Player
     # jumping curve will be the parabole we want it to be.
     @vy += 1
     # Vertical movement
-    if @vy > 0 then
+    if @vy > 0
       @vy.times { if would_fit(0, 1) then @y += 1 else @vy = 0 end }
     end
-    if @vy < 0 then
+    if @vy < 0
       (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
     end
   end
   
   def try_to_jump
-    if @map.solid?(@x, @y + 1) then
+    if @map.solid?(@x, @y + 1)
       @vy = -20
     end
   end
@@ -202,8 +202,8 @@ class CptnRuby < (Example rescue Gosu::Window)
   
   def update
     move_x = 0
-    move_x -= 5 if Gosu::button_down? Gosu::KbLeft
-    move_x += 5 if Gosu::button_down? Gosu::KbRight
+    move_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
+    move_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
     @cptn.update(move_x)
     @cptn.collect_gems(@map.gems)
     # Scrolling follows player
@@ -213,15 +213,20 @@ class CptnRuby < (Example rescue Gosu::Window)
   
   def draw
     @sky.draw 0, 0, 0
-    Gosu::translate(-@camera_x, -@camera_y) do
+    Gosu.translate(-@camera_x, -@camera_y) do
       @map.draw
       @cptn.draw
     end
   end
   
   def button_down(id)
-    if id == Gosu::KbUp then
+    case id
+    when Gosu::KB_UP
       @cptn.try_to_jump
+    when Gosu::KB_ESCAPE
+      close
+    else
+      super
     end
   end
 end

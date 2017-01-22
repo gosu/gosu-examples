@@ -32,7 +32,7 @@ class GLBackground
   
   def scroll
     @scrolls += 1
-    if @scrolls == SCROLLS_PER_STEP then
+    if @scrolls == SCROLLS_PER_STEP
       @scrolls = 0
       @height_map.shift
       @height_map.push Array.new(POINTS_X) { rand }
@@ -42,7 +42,7 @@ class GLBackground
   def draw(z)
     # gl will execute the given block in a clean OpenGL environment, then reset
     # everything so Gosu's rendering can take place again.
-    Gosu::gl(z) { exec_gl }
+    Gosu.gl(z) { exec_gl }
   end
   
   private
@@ -143,7 +143,7 @@ class Player
   
   def collect_stars(stars)
     stars.reject! do |star|
-      if Gosu::distance(@x, @y, star.x, star.y) < 35 then
+      if Gosu.distance(@x, @y, star.x, star.y) < 35
         @score += 10
         @beep.play
         true
@@ -170,7 +170,7 @@ class Star
   end
 
   def draw  
-    img = @animation[Gosu::milliseconds / 100 % @animation.size];
+    img = @animation[Gosu.milliseconds / 100 % @animation.size];
     img.draw_rot(@x, @y, ZOrder::Stars, @y, 0.5, 0.5, 1, 1, @color, :add)
   end
   
@@ -199,10 +199,10 @@ class OpenGLIntegration < (Example rescue Gosu::Window)
   end
   
   def update
-    @player.move_left if Gosu::button_down? Gosu::KbLeft or Gosu::button_down? Gosu::GpLeft
-    @player.move_right if Gosu::button_down? Gosu::KbRight or Gosu::button_down? Gosu::GpRight
-    @player.accelerate if Gosu::button_down? Gosu::KbUp or Gosu::button_down? Gosu::GpUp
-    @player.brake if Gosu::button_down? Gosu::KbDown or Gosu::button_down? Gosu::GpDown
+    @player.move_left  if Gosu.button_down? Gosu::KB_LEFT  or Gosu.button_down? Gosu::GP_LEFT
+    @player.move_right if Gosu.button_down? Gosu::KB_RIGHT or Gosu.button_down? Gosu::GP_RIGHT
+    @player.accelerate if Gosu.button_down? Gosu::KB_UP    or Gosu.button_down? Gosu::GP_UP
+    @player.brake      if Gosu.button_down? Gosu::KB_DOWN  or Gosu.button_down? Gosu::GP_DOWN
     
     @player.collect_stars(@stars)
     
