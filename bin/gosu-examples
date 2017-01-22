@@ -14,7 +14,7 @@ Example.load_examples "*.rb"
 
 class ExampleBox < Gosu::Window
   def initialize
-    super Sidebar::WIDTH, 1, :fullscreen => ARGV.include?('--fullscreen')
+    super Sidebar::WIDTH, Sidebar::HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
     
     @sidebar = Sidebar.new { |example| change_example(example) }
     

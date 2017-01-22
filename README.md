@@ -1,6 +1,8 @@
 Gosu Examples
 =============
 
+<img src="screenshot.png" width="526">
+
 This is a collection of Ruby example games for the [Gosu library](https://www.libgosu.org/).
 
 (You can find C++ examples in the [main gosu repository](https://github.com/gosu/gosu/tree/master/examples).)

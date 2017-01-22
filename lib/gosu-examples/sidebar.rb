@@ -1,13 +1,13 @@
 class Sidebar
-  WIDTH = 213
+  WIDTH = 300
   HEIGHT = 600
   FONT = Gosu::Font.new(20)
-  HEADER = Gosu::Image.new("media/header.psd", :tileable => true)
+  HEADER = Gosu::Image.new("media/header@2x.psd", :tileable => true)
   
   class Button
     HEIGHT = 25
     SPACING = 5
-    TOP_Y = HEADER.height + 15
+    TOP_Y = HEADER.height / 2 + 15
     
     attr_reader :filename
     
@@ -45,7 +45,7 @@ class Sidebar
   
   def draw(current_filename)
     Gosu.draw_rect 0, 0, WIDTH, HEIGHT, Gosu::Color::WHITE
-    HEADER.draw 0, 0, 0
+    HEADER.draw 0, 0, 0, 0.5, 0.5
     
     @buttons.each do |button|
       is_current = (button.filename == current_filename)
