@@ -17,7 +17,7 @@
 #  4) similarly, add sound effects for various events
 # Exploring this game's code and Gosu:
 #  5) make the player wider, so he doesn't fall off edges as easily
-#  6) add background music (check if playing in Window#update to implement 
+#  6) add background music (check if playing in Window#update to implement
 #     looping)
 #  7) implement parallax scrolling for the star background!
 # Getting tricky:
@@ -44,7 +44,7 @@ class CollectibleGem
     @image = image
     @x, @y = x, y
   end
-  
+
   def draw
     # Draw, slowly rotating
     @image.draw_rot(@x, @y, 0, 25 * Math.sin(Gosu.milliseconds / 133.7))
@@ -53,7 +53,7 @@ end
 
 # Player class.
 class Player
-  attr_reader :x, :y
+  attr_reader :x, :y, :score
 
   def initialize(map, x, y)
     @x, @y = x, y
@@ -64,9 +64,10 @@ class Player
     @standing, @walk1, @walk2, @jump = *Gosu::Image.load_tiles("media/cptn_ruby.png", 50, 50)
     # This always points to the frame that is currently drawn.
     # This is set in update, and used in draw.
-    @cur_image = @standing    
+    @cur_image = @standing
+    @score = 0
   end
-  
+
   def draw
     # Flip vertically when facing to the left.
     if @dir == :left
@@ -78,14 +79,14 @@ class Player
     end
     @cur_image.draw(@x + offs_x, @y - 49, 0, factor, 1.0)
   end
-  
+
   # Could the object be placed at x + offs_x/y + offs_y without being stuck?
   def would_fit(offs_x, offs_y)
     # Check at the center/top and center/bottom for map collisions
     not @map.solid?(@x + offs_x, @y + offs_y) and
       not @map.solid?(@x + offs_x, @y + offs_y - 45)
   end
-  
+
   def update(move_x)
     # Select image depending on action
     if (move_x == 0)
@@ -96,7 +97,7 @@ class Player
     if (@vy < 0)
       @cur_image = @jump
     end
-    
+
     # Directional walking, horizontal movement
     if move_x > 0
       @dir = :right
@@ -119,25 +120,32 @@ class Player
       (-@vy).times { if would_fit(0, -1) then @y -= 1 else @vy = 0 end }
     end
   end
-  
+
   def try_to_jump
     if @map.solid?(@x, @y + 1)
       @vy = -20
     end
   end
-  
+
   def collect_gems(gems)
     # Same as in the tutorial game.
-    gems.reject! do |c|
-      (c.x - @x).abs < 50 and (c.y - @y).abs < 50
+    gems.each do |gem|
+      if (gem.x - @x).abs < 50 and (gem.y - @y).abs < 50
+        gem_caught(gem)
+      end
     end
+  end
+
+  def gem_caught(gem)
+    @score += 1
+    @map.gems.delete(gem)
   end
 end
 
 # Map class holds and draws tiles and gems.
 class Map
   attr_reader :width, :height, :gems
-  
+
   def initialize(filename)
     # Load 60x60 tiles, 5px overlap in all four directions.
     @tileset = Gosu::Image.load_tiles("media/tileset.png", 60, 60, :tileable => true)
@@ -164,7 +172,7 @@ class Map
       end
     end
   end
-  
+
   def draw
     # Very primitive drawing function:
     # Draws all the tiles, some off-screen, some on-screen.
@@ -180,7 +188,7 @@ class Map
     end
     @gems.each { |c| c.draw }
   end
-  
+
   # Solid at a given pixel position?
   def solid?(x, y)
     y < 0 || @tiles[x / 50][y / 50]
@@ -190,16 +198,17 @@ end
 class CptnRuby < (Example rescue Gosu::Window)
   def initialize
     super WIDTH, HEIGHT
-    
+
     self.caption = "Cptn. Ruby"
-    
+
     @sky = Gosu::Image.new("media/space.png", :tileable => true)
     @map = Map.new("media/cptn_ruby_map.txt")
     @cptn = Player.new(@map, 400, 100)
     # The scrolling position is stored as top left corner of the screen.
     @camera_x = @camera_y = 0
+    @font = Gosu::Font.new(20)
   end
-  
+
   def update
     move_x = 0
     move_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
@@ -210,18 +219,19 @@ class CptnRuby < (Example rescue Gosu::Window)
     @camera_x = [[@cptn.x - WIDTH / 2, 0].max, @map.width * 50 - WIDTH].min
     @camera_y = [[@cptn.y - HEIGHT / 2, 0].max, @map.height * 50 - HEIGHT].min
   end
-  
+
   def draw
     @sky.draw 0, 0, 0
     Gosu.translate(-@camera_x, -@camera_y) do
       @map.draw
       @cptn.draw
+      @font.draw("Score: #{@cptn.score}", 10, 10, 0, 1.0, 1.0, Gosu::Color::YELLOW)
     end
   end
-  
+
   def button_down(id)
     case id
-    when Gosu::KB_UP
+    when Gosu::KB_UP, Gosu::KB_SPACE
       @cptn.try_to_jump
     when Gosu::KB_ESCAPE
       close
