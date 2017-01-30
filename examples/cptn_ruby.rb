@@ -222,10 +222,10 @@ class CptnRuby < (Example rescue Gosu::Window)
 
   def draw
     @sky.draw 0, 0, 0
+    @font.draw("Score: #{@cptn.score}", 10, 10, 1, 1.0, 1.0, Gosu::Color::YELLOW)
     Gosu.translate(-@camera_x, -@camera_y) do
       @map.draw
       @cptn.draw
-      @font.draw("Score: #{@cptn.score}", 10, 10, 0, 1.0, 1.0, Gosu::Color::YELLOW)
     end
   end
 
