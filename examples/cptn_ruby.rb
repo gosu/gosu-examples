@@ -30,7 +30,7 @@
 require 'rubygems'
 require 'gosu'
 
-WIDTH, HEIGHT = 640, 480
+WIDTH, HEIGHT = 2340, 1380
 
 module Tiles
   Grass = 0
@@ -123,7 +123,7 @@ class Player
 
   def try_to_jump
     if @map.solid?(@x, @y + 1)
-      @vy = -20
+      @vy = -25
     end
   end
 
@@ -222,16 +222,24 @@ class CptnRuby < (Example rescue Gosu::Window)
 
   def draw
     @sky.draw 0, 0, 0
-    @font.draw("Score: #{@cptn.score}", 10, 10, 1, 1.0, 1.0, Gosu::Color::YELLOW)
+    @font.draw("Score: #{@cptn.score}", 10, 10, 3, 3.0, 3.0, Gosu::Color::YELLOW)
+    @font.draw("Gems Left: #{@map.gems.count}", 10, 60, 3, 3.0, 3.0, Gosu::Color::YELLOW)
+    if @map.gems.count <= 0
+      found_all_gems
+    end
     Gosu.translate(-@camera_x, -@camera_y) do
       @map.draw
       @cptn.draw
     end
   end
 
+  def found_all_gems
+    @font.draw("YOU WIN", 450, 450, 3, 18.0, 18.0, Gosu::Color::YELLOW)
+  end
+
   def button_down(id)
     case id
-    when Gosu::KB_UP, Gosu::KB_SPACE
+    when Gosu::KB_UP, Gosu::KB_Z
       @cptn.try_to_jump
     when Gosu::KB_ESCAPE
       close
