@@ -66,6 +66,8 @@ class Player
     # This is set in update, and used in draw.
     @cur_image = @standing
     @score = 0
+    @beep = Gosu::Sample.new("media/beep.wav")
+    @jump_sound = Gosu::Sample.new("media/jump.wav")
   end
 
   def draw
@@ -124,6 +126,7 @@ class Player
   def try_to_jump
     if @map.solid?(@x, @y + 1)
       @vy = -25
+      @jump_sound.play
     end
   end
 
@@ -139,6 +142,7 @@ class Player
   def gem_caught(gem)
     @score += 1
     @map.gems.delete(gem)
+    @beep.play
   end
 end
 
