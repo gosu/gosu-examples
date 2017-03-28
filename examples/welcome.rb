@@ -27,7 +27,7 @@ class Welcome < (Example rescue Gosu::Window)
       • To quit this tool, press <b>Esc</b>.
       • To toggle fullscreen mode, press <b>Alt+Enter</b> (Windows, Linux) or <b>cmd+F</b> (macOS).
       
-      Why not take a look at the code for this example right now? Simply press <b>S</b>."
+      Why not take a look at the code for this example right now? Simply press <b>E</b>."
     
     # Remove all leading spaces so the text is left-aligned
     text.gsub! /^ +/, ''
