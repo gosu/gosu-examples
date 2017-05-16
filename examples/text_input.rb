@@ -1,22 +1,21 @@
-# This example demonstrates the use of the TextInput functionality.
-# One can tab through, or click into the text fields and change it's contents.
+# This example demonstrates use of the TextInput class with three text field widgets.
+# One can cycle through them with tab, or click into the text fields and change their contents.
 
-# At its most basic form, you only need to create a new TextInput instance and
-# set the text_input attribute of your window to it. Until you set this
-# attribute to nil again, the TextInput object will build a text that can be
-# accessed via TextInput#text.
+# The way TextInput works is that you create an instance of it, and then assign it to the text_input
+# attribute of your window.
+# Until you set this attribute to nil again, the TextInput object will then build a string from user
+# input that can be accessed via TextInput#text.
 
-# The TextInput object also maintains the position of the caret as the index
-# of the character that it's left to via the caret_pos attribute. Furthermore,
-# if there is a selection, the selection_start attribute yields its beginning,
-# using the same indexing scheme. If there is no selection, selection_start
-# is equal to caret_pos.
+# The TextInput object also maintains the position of the caret, which is defined as the index of
+# its right neighbour character, i.e. a carent_pos of 0 is always the left-most position, and a
+# caret_pos of text.length is always the right-most position.
+# There is a second attribute called selection_start that is equal to caret_pos when there is no
+# selection, and otherwise defines the selected range. If you set caret_pos to a different value,
+# you usually want to set selection_start as well.
 
-# A TextInput object is purely abstract, though; drawing the input field is left
-# to the user. In this case, we are subclassing TextInput to add this code.
-# As with most of Gosu, how this is handled is completely left open; the scheme
-# presented here is not mandatory! Gosu only aims to provide enough code for
-# games (or intermediate UI toolkits) to be built upon it.
+# A TextInput object is purely abstract. Drawing the input field is left to the user.
+# In this example, we are subclassing TextInput to add this code, but you can also work with
+# composition instead of inheritance.
 
 require 'rubygems'
 require 'gosu'
