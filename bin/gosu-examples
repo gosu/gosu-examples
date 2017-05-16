@@ -78,6 +78,7 @@ class ExampleBox < Gosu::Window
       @current_example = nil
       GC.start
       @current_example = example.new
+      @current_example.parent_window = self
       self.width = @current_example.width + Sidebar::WIDTH
       self.height = @current_example.height
     end

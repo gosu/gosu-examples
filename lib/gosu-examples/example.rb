@@ -1,6 +1,7 @@
 class Example
   attr_accessor :caption
   attr_reader :width, :height
+  attr_writer :parent_window
   
   def initialize(width, height, *options)
     @width, @height = width, height
@@ -22,6 +23,22 @@ class Example
     # no-op, examples cannot close the containing window.
   end
 
+  def mouse_x
+    @parent_window && @parent_window.mouse_x
+  end
+  
+  def mouse_y
+    @parent_window && @parent_window.mouse_y
+  end
+  
+  def text_input
+    @parent_window && @parent_window.text_input
+  end
+  
+  def text_input=(text_input)
+    @parent_window && @parent_window.text_input = text_input
+  end
+  
   def self.current_source_file
     @current_source_file
   end
