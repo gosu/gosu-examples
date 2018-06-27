@@ -1,3 +1,4 @@
+
 # Encoding: UTF-8
 
 # Basically, the tutorial game taken to a jump'n'run perspective.
@@ -35,6 +36,7 @@ WIDTH, HEIGHT = 2340, 1380
 module Tiles
   Grass = 0
   Earth = 1
+  Water = 2
 end
 
 class CollectibleGem
@@ -47,7 +49,7 @@ class CollectibleGem
 
   def draw
     # Draw, slowly rotating
-    @image.draw_rot(@x, @y, 0, 25 * Math.sin(Gosu.milliseconds / 133.7))
+    @image.draw_rot(@x, @y, 0, 0 * Math.sin(Gosu.milliseconds / 133.7))
   end
 end
 
@@ -57,7 +59,7 @@ class Player
 
   def initialize(map, x, y)
     @x, @y = x, y
-    @dir = :left
+    @dir = :right
     @vy = 0 # Vertical velocity
     @map = map
     # Load all animation frames
@@ -167,6 +169,8 @@ class Map
           Tiles::Grass
         when '#'
           Tiles::Earth
+        when '~'
+          Tiles::Water
         when 'x'
           @gems.push(CollectibleGem.new(gem_img, x * 50 + 25, y * 50 + 25))
           nil
@@ -195,7 +199,9 @@ class Map
 
   # Solid at a given pixel position?
   def solid?(x, y)
-    y < 0 || @tiles[x / 50][y / 50]
+    y < 0 ||
+    @tiles[x / 50][y / 50] == Tiles::Grass ||
+    @tiles[x / 50][y / 50] == Tiles::Earth
   end
 end
 
@@ -211,17 +217,20 @@ class CptnRuby < (Example rescue Gosu::Window)
     # The scrolling position is stored as top left corner of the screen.
     @camera_x = @camera_y = 0
     @font = Gosu::Font.new(20)
+    @round_complete = false
   end
 
   def update
-    move_x = 0
-    move_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
-    move_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
-    @cptn.update(move_x)
-    @cptn.collect_gems(@map.gems)
-    # Scrolling follows player
-    @camera_x = [[@cptn.x - WIDTH / 2, 0].max, @map.width * 50 - WIDTH].min
-    @camera_y = [[@cptn.y - HEIGHT / 2, 0].max, @map.height * 50 - HEIGHT].min
+    unless @round_complete
+      move_x = 0
+      move_x -= 5 if Gosu.button_down? Gosu::KB_LEFT
+      move_x += 5 if Gosu.button_down? Gosu::KB_RIGHT
+      @cptn.update(move_x)
+      @cptn.collect_gems(@map.gems)
+      # Scrolling follows player
+      @camera_x = [[@cptn.x - WIDTH / 2, 0].max, @map.width * 50 - WIDTH].min
+      @camera_y = [[@cptn.y - HEIGHT / 2, 0].max, @map.height * 50 - HEIGHT].min
+    end
   end
 
   def draw
@@ -239,6 +248,7 @@ class CptnRuby < (Example rescue Gosu::Window)
 
   def found_all_gems
     @font.draw("YOU WIN", 450, 450, 3, 18.0, 18.0, Gosu::Color::YELLOW)
+    round_complete
   end
 
   def button_down(id)
@@ -250,6 +260,10 @@ class CptnRuby < (Example rescue Gosu::Window)
     else
       super
     end
+  end
+
+  def round_complete
+    @round_complete = true
   end
 end
 
