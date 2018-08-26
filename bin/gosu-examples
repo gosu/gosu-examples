@@ -16,8 +16,8 @@ Example.load_examples "*.rb"
 
 class ExampleBox < Gosu::Window
   def initialize
-    super WIDTH, HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
-    
+    super (WIDTH/2)+WIDTH, HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
+
     @sidebar = Sidebar.new { |example| change_example(example) }
     
     welcome_class = Example.examples.find { |example| example.name =~ /::Welcome$/ }
