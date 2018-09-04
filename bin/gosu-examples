@@ -13,12 +13,15 @@ Example.load_examples "*.rb"
 
 class ExampleBox < Gosu::Window
   def initialize
-    super Sidebar::WIDTH, Sidebar::HEIGHT, fullscreen: ARGV.include?("--fullscreen")
+    welcome_class = Example.initial_example
+    welcome = welcome_class.new
+
+    super welcome.width + Sidebar::WIDTH, welcome.height, fullscreen: ARGV.include?("--fullscreen")
     
-    @sidebar = Sidebar.new { |example| change_example(example) }
-    
-    welcome_class = Example.examples.find { |example| example.name =~ /::Welcome$/ }
-    change_example(welcome_class)
+    @sidebar = Sidebar.new do |example_class|
+      self.current_example = example_class.new unless @current_example.is_a? example_class
+    end
+    self.current_example = welcome
   end
   
   def update
@@ -72,16 +75,12 @@ class ExampleBox < Gosu::Window
   
   private
   
-  def change_example(example)
-    if @current_example.class != example
-      @current_example = nil
-      self.text_input = nil
-      GC.start
-      @current_example = example.new
-      @current_example.parent_window = self
-      self.width = @current_example.width + Sidebar::WIDTH
-      self.height = @current_example.height
-    end
+  def current_example=(example)
+    self.text_input = nil
+    @current_example = example
+    @current_example.parent_window = self
+    self.width  = @current_example.width + Sidebar::WIDTH
+    self.height = @current_example.height
   end
   
   def open_file_or_folder(filename)

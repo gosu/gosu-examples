@@ -60,6 +60,10 @@ class Example
     @@examples[self]
   end
   
+  def self.initial_example
+    @@examples.keys.find { |cls| cls.name.end_with? "::Welcome" }
+  end
+  
   def self.load_examples(pattern)
     Dir.glob(pattern) do |file| 
       begin
