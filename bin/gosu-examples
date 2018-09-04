@@ -75,6 +75,7 @@ class ExampleBox < Gosu::Window
   def change_example(example)
     if @current_example.class != example
       @current_example = nil
+      self.text_input = nil
       GC.start
       @current_example = example.new
       @current_example.parent_window = self
