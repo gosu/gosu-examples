@@ -8,9 +8,8 @@
 ## Comments: Based on the Gosu Ruby Tutorial, but incorporating the Chipmunk Physics Engine
 ## See https://github.com/jlnr/gosu/wiki/Ruby-Chipmunk-Integration for the accompanying text.
 
-require 'rubygems'
-require 'gosu'
-require 'chipmunk'
+require "gosu"
+require "chipmunk"
 
 WIDTH = 640
 HEIGHT = 480
@@ -125,7 +124,7 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
     
     self.caption = "Gosu & Chipmunk Integration Demo"
     
-    @background_image = Gosu::Image.new("media/space.png", :tileable => true)
+    @background_image = Gosu::Image.new("media/space.png", tileable: true)
 
     # Put the beep here, as it is the environment now that determines collision
     @beep = Gosu::Sample.new("media/beep.wav")

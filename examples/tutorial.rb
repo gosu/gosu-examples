@@ -1,7 +1,6 @@
 # Encoding: UTF-8
 
-require 'rubygems'
-require 'gosu'
+require "gosu"
 
 module ZOrder
   BACKGROUND, STARS, PLAYER, UI = *0..3
@@ -86,7 +85,7 @@ class Tutorial < (Example rescue Gosu::Window)
     super 640, 480
     self.caption = "Tutorial Game"
     
-    @background_image = Gosu::Image.new("media/space.png", :tileable => true)
+    @background_image = Gosu::Image.new("media/space.png", tileable: true)
     
     @player = Player.new
     @player.warp(320, 240)

@@ -17,8 +17,7 @@
 # In this example, we are subclassing TextInput to add this code, but you can also work with
 # composition instead of inheritance.
 
-require 'rubygems'
-require 'gosu'
+require "gosu"
 
 class TextField < Gosu::TextInput
   FONT = Gosu::Font.new(20)
@@ -115,9 +114,9 @@ class TextInputDemo < (Example rescue Gosu::Window)
       As in every example, press <b>S</b> to look at the source code."
     
     # Remove all leading spaces so the text is left-aligned
-    text.gsub! /^ +/, ''
+    text.gsub! /^ +/, ""
     
-    @text = Gosu::Image.from_text text, 20, :width => 540
+    @text = Gosu::Image.from_text text, 20, width: 540
         
     # Set up an array of three text fields.
     @text_fields = Array.new(3) { |index| TextField.new(self, 50, 300 + index * 50) }

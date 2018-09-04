@@ -2,7 +2,7 @@ class Sidebar
   WIDTH = 300
   HEIGHT = 600
   FONT = Gosu::Font.new(20)
-  HEADER = Gosu::Image.new("media/header@2x.psd", :tileable => true)
+  HEADER = Gosu::Image.new("media/header@2x.psd", tileable: true)
   
   class Button
     HEIGHT = 25
@@ -19,7 +19,7 @@ class Sidebar
       text_color = Gosu::Color::BLACK
       
       if is_current
-        Gosu.draw_rect 0, @top, Sidebar::WIDTH, HEIGHT, 0xff_1565e5 if is_current
+        Gosu.draw_rect 0, @top, Sidebar::WIDTH, HEIGHT, 0xff_1565e5
         text_color = Gosu::Color::WHITE
       end
       

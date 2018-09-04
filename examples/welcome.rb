@@ -1,7 +1,6 @@
 # Encoding: UTF-8
 
-require 'rubygems'
-require 'gosu'
+require "gosu"
 
 WIDTH, HEIGHT = 640, 480
 
@@ -30,9 +29,9 @@ class Welcome < (Example rescue Gosu::Window)
       Why not take a look at the code for this example right now? Simply press <b>E</b>."
     
     # Remove all leading spaces so the text is left-aligned
-    text.gsub! /^ +/, ''
+    text.gsub! /^ +/, ""
     
-    @text = Gosu::Image.from_text text, 20, :width => WIDTH - 2 * PADDING
+    @text = Gosu::Image.from_text text, 20, width: WIDTH - 2 * PADDING
     
     @background = Gosu::Image.new "media/space.png"
   end

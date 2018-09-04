@@ -1,6 +1,6 @@
 # Encoding: UTF-8
 
-# A (too) simple Gorilla-style shooter for two players.
+# A simple Gorilla-style shooter for two players.
 # Shows how Gosu and RMagick can be used together to generate a map, implement
 # a dynamic landscape and generally look great.
 # Also shows a very minimal, yet effective way of designing a game's object system.
@@ -13,13 +13,12 @@
 # * The look of dead soldiers is, err, by accident. Soldier.png needs to be
 #   designed in a less obfuscated way :)
 
-require 'rubygems'
-require 'gosu'
-require 'rmagick'
+require "gosu"
+require "rmagick"
 
 WIDTH, HEIGHT = 640, 480
 
-NULL_PIXEL = Magick::Pixel.from_color('none')
+NULL_PIXEL = Magick::Pixel.from_color("none")
 
 # The class for this game's map.
 # Design:
@@ -35,13 +34,13 @@ class Map
     # Loading SVG files isn't possible with Gosu, so say wow!
     # (Seems to take a while though)
     sky = Magick::Image.read("media/landscape.svg").first
-    @sky = Gosu::Image.new(sky, :tileable => true)
+    @sky = Gosu::Image.new(sky, tileable: true)
       
     # Create the map an stores the RMagick image in @image
     create_rmagick_map
     
     # Copy the RMagick Image to a Gosu Image (still unchanged)
-    @gosu_image = Gosu::Image.new(@image, :tileable => true)
+    @gosu_image = Gosu::Image.new(@image, tileable: true)
   end
   
   def solid? x, y
@@ -68,9 +67,9 @@ class Map
   # Create the crater image (basically a circle shape that is used to erase
   # parts of the map) and the crater shadow image.
   CRATER_IMAGE = begin
-    crater = Magick::Image.new(2 * RADIUS, 2 * RADIUS) { self.background_color = 'none' }
+    crater = Magick::Image.new(2 * RADIUS, 2 * RADIUS) { self.background_color = "none" }
     gc = Magick::Draw.new
-    gc.fill('black').circle(RADIUS, RADIUS, RADIUS, 0)
+    gc.fill("black").circle(RADIUS, RADIUS, RADIUS, 0)
     gc.draw crater
     crater
   end
@@ -93,14 +92,14 @@ class Map
   
   def create_rmagick_map
     # This is the one large RMagick image that represents the map.
-    @image = Magick::Image.new(WIDTH, HEIGHT) { self.background_color = 'none' }
+    @image = Magick::Image.new(WIDTH, HEIGHT) { self.background_color = "none" }
     
     # Set up a Draw object that fills with an earth texture.
-    earth = Magick::Image.read('media/earth.png').first.resize(1.5)
+    earth = Magick::Image.read("media/earth.png").first.resize(1.5)
     gc = Magick::Draw.new
-    gc.pattern('earth', 0, 0, earth.columns, earth.rows) { gc.composite(0, 0, 0, 0, earth) }    
-    gc.fill('earth')
-    gc.stroke('#603000').stroke_width(1.5)
+    gc.pattern("earth", 0, 0, earth.columns, earth.rows) { gc.composite(0, 0, 0, 0, earth) }    
+    gc.fill("earth")
+    gc.stroke("#603000").stroke_width(1.5)
     # Draw a smooth bezier island onto the map!
     polypoints = [0, HEIGHT]
     0.upto(8) do |x|
@@ -112,13 +111,13 @@ class Map
     
     # Create a bright-dark gradient fill, an image from it and change the map's
     # brightness with it.
-    fill = Magick::GradientFill.new(0, HEIGHT * 0.4, WIDTH, HEIGHT * 0.4, '#fff', '#666')
+    fill = Magick::GradientFill.new(0, HEIGHT * 0.4, WIDTH, HEIGHT * 0.4, "#fff", "#666")
     gradient = Magick::Image.new(WIDTH, HEIGHT, fill)
     gradient = @image.composite(gradient, 0, 0, Magick::InCompositeOp)
     @image.composite!(gradient, 0, 0, Magick::MultiplyCompositeOp)
 
     # Finally, place the star in the middle of the map, just onto the ground.
-    star = Magick::Image.read('media/large_star.png').first
+    star = Magick::Image.read("media/large_star.png").first
     star_y = 0
     star_y += 20 until solid?(WIDTH / 2, star_y)
     @image.composite!(star, (WIDTH - star.columns) / 2, star_y - star.rows * 0.85,
@@ -299,7 +298,7 @@ end
 class Particle
   def initialize(window, x, y)
     # All Particle instances use the same image
-    @@image ||= Gosu::Image.new('media/smoke.png')
+    @@image ||= Gosu::Image.new("media/smoke.png")
     
     @x, @y = x, y
     @color = Gosu::Color.new(255, 255, 255, 255)
@@ -342,10 +341,10 @@ class RMagickIntegration < (Example rescue Gosu::Window)
       @player_instructions << Gosu::Image.from_text(
         "It is the #{ plr == 0 ? 'green' : 'red' } toy soldier's turn.\n" +
         "(Arrow keys to walk and aim, Return to jump, Space to shoot)",
-        30, :width => width, :align => :center)
+        30, width: width, align: :center)
       @player_won_messages << Gosu::Image.from_text(
         "The #{ plr == 0 ? 'green' : 'red' } toy soldier has won!",
-        30, :width => width, :align => :center)
+        30, width: width, align: :center)
     end
 
     # Create everything!

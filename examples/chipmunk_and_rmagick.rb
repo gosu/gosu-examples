@@ -6,10 +6,9 @@
 # License: Same as for Gosu (MIT)
 # Created on 21/10/2007, 00:05:19 by Robert Sheehan
 
-require 'rubygems'
-require 'gosu'
-require 'chipmunk'
-require 'rmagick'
+require "gosu"
+require "chipmunk"
+require "rmagick"
 
 # Layering of sprites
 module ZOrder
@@ -42,7 +41,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
     fill = Magick::TextureFill.new(Magick::ImageList.new("granite:"))
     background = Magick::Image.new(WIDTH, HEIGHT, fill)
     setup_triangles(background)
-    @background_image = Gosu::Image.new(background, :tileable => true) # turn the image into a Gosu one
+    @background_image = Gosu::Image.new(background, tileable: true) # turn the image into a Gosu one
     @boxes = create_boxes(NUM_POLYGONS)
   end
   
@@ -51,8 +50,8 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
   def setup_triangles(background)
     gc = Magick::Draw.new
     gc.stroke_width(2)
-    gc.stroke('red')
-    gc.fill('blue')
+    gc.stroke("red")
+    gc.fill("blue")
     # all the triangles are part of the same body
     body = CP::Body.new(Float::MAX, Float::MAX)
     base = 15
@@ -87,10 +86,10 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
   
   # Produces the image of a polygon.
   def polygon_image(vertices)
-    box_image = Magick::Image.new(EDGE_SIZE  * 2, EDGE_SIZE * 2) { self.background_color = 'transparent' }
+    box_image = Magick::Image.new(EDGE_SIZE  * 2, EDGE_SIZE * 2) { self.background_color = "transparent" }
     gc = Magick::Draw.new
-    gc.stroke('red')
-    gc.fill('plum')
+    gc.stroke("red")
+    gc.fill("plum")
     draw_vertices = vertices.map { |v| [v.x + EDGE_SIZE, v.y + EDGE_SIZE] }.flatten
     gc.polygon(*draw_vertices)
     gc.draw(box_image)

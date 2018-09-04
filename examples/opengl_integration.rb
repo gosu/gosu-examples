@@ -5,9 +5,8 @@
 # the block given to Window#gl, and that Gosu Images can be
 # used as textures using the gl_tex_info call.
 
-require 'rubygems'
-require 'gosu'
-require 'gl'
+require "gosu"
+require "gl"
 
 WIDTH, HEIGHT = 640, 480
 
@@ -25,7 +24,7 @@ class GLBackground
   SCROLLS_PER_STEP = 50
 
   def initialize
-    @image = Gosu::Image.new("media/earth.png", :tileable => true)
+    @image = Gosu::Image.new("media/earth.png", tileable: true)
     @scrolls = 0
     @height_map = Array.new(POINTS_Y) { Array.new(POINTS_X) { rand } }
   end

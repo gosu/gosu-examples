@@ -1,6 +1,6 @@
 # Encoding: UTF-8
 
-# Basically, the tutorial game taken to a jump'n'run perspective.
+# A simple jump-and-run/platformer game with a tile-based map.
 
 # Shows how to
 #  * implement jumping/gravity
@@ -27,8 +27,7 @@
 # ...Enemies, a more sophisticated object system, weapons, title and credits
 # screens...
 
-require 'rubygems'
-require 'gosu'
+require "gosu"
 
 WIDTH, HEIGHT = 640, 480
 
@@ -140,7 +139,7 @@ class Map
   
   def initialize(filename)
     # Load 60x60 tiles, 5px overlap in all four directions.
-    @tileset = Gosu::Image.load_tiles("media/tileset.png", 60, 60, :tileable => true)
+    @tileset = Gosu::Image.load_tiles("media/tileset.png", 60, 60, tileable: true)
 
     gem_img = Gosu::Image.new("media/gem.png")
     @gems = []
@@ -193,7 +192,7 @@ class CptnRuby < (Example rescue Gosu::Window)
     
     self.caption = "Cptn. Ruby"
     
-    @sky = Gosu::Image.new("media/space.png", :tileable => true)
+    @sky = Gosu::Image.new("media/space.png", tileable: true)
     @map = Map.new("media/cptn_ruby_map.txt")
     @cptn = Player.new(@map, 400, 100)
     # The scrolling position is stored as top left corner of the screen.

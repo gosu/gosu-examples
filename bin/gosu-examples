@@ -1,20 +1,19 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'gosu'
+require "gosu"
 
 Dir.chdir "#{File.dirname __FILE__}/../examples"
 
 $LOAD_PATH << "#{File.dirname __FILE__}/../lib/gosu-examples"
 
-require 'example'
-require 'sidebar'
+require "example"
+require "sidebar"
 
 Example.load_examples "*.rb"
 
 class ExampleBox < Gosu::Window
   def initialize
-    super Sidebar::WIDTH, Sidebar::HEIGHT, :fullscreen => ARGV.include?('--fullscreen')
+    super Sidebar::WIDTH, Sidebar::HEIGHT, fullscreen: ARGV.include?("--fullscreen")
     
     @sidebar = Sidebar.new { |example| change_example(example) }
     
@@ -43,11 +42,11 @@ class ExampleBox < Gosu::Window
     case id
     when Gosu::KB_ESCAPE
       close
-    when Gosu.char_to_button_id('E')
+    when Gosu.char_to_button_id("E")
       if filename = @current_example.class.source_file
         open_file_or_folder filename
       end
-    when Gosu.char_to_button_id('O')
+    when Gosu.char_to_button_id("O")
       if filename = @current_example.class.source_file
         open_file_or_folder File.dirname(filename)
       end
