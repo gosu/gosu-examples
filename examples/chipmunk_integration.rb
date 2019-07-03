@@ -257,7 +257,7 @@ class ChipmunkIntegration < (Example rescue Gosu::Window)
     @background_image.draw(0, 0, ZOrder::Background)
     @player.draw
     @stars.each { |star| star.draw }
-    @font.draw("Score: #{@score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
+    @font.draw_text("Score: #{@score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
   end
 
   def button_down(id)
