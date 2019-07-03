@@ -118,7 +118,7 @@ class Tutorial < (Example rescue Gosu::Window)
     @background_image.draw(0, 0, ZOrder::BACKGROUND)
     @player.draw
     @stars.each { |star| star.draw }
-    @font.draw("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
+    @font.draw_text("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, Gosu::Color::YELLOW)
   end
   
   def button_down(id)
