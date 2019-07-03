@@ -73,7 +73,7 @@ class TextField < Gosu::TextInput
     end
 
     # Finally, draw the text itself!
-    FONT.draw self.text, x, y, z
+    FONT.draw_text self.text, x, y, z
   end
   
   def height

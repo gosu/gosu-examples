@@ -215,7 +215,7 @@ class OpenGLIntegration < (Example rescue Gosu::Window)
   def draw
     @player.draw
     @stars.each { |star| star.draw }
-    @font.draw("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
+    @font.draw_text("Score: #{@player.score}", 10, 10, ZOrder::UI, 1.0, 1.0, 0xff_ffff00)
     @gl_background.draw(ZOrder::Background)
   end
 end
