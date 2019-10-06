@@ -111,7 +111,7 @@ class TextInputDemo < (Example rescue Gosu::Window)
       
       Each text field can take up to 30 characters, and you can use Tab to switch between them.
 
-      As in every example, press <b>S</b> to look at the source code."
+      As in every example, press <b>E</b> to look at the source code."
     
     # Remove all leading spaces so the text is left-aligned
     text.gsub! /^ +/, ""

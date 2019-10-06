@@ -2,7 +2,7 @@ class Sidebar
   WIDTH = 300
   HEIGHT = 600
   FONT = Gosu::Font.new(20)
-  HEADER = Gosu::Image.new("media/header@2x.psd", tileable: true)
+  HEADER = Gosu::Image.new("#{File.dirname __FILE__}/media/header@2x.psd", tileable: true)
   
   class Button
     HEIGHT = 25
@@ -23,7 +23,7 @@ class Sidebar
         text_color = Gosu::Color::WHITE
       end
       
-      FONT.draw File.basename(@filename), 13, @top + 2, 0, 1, 1, text_color
+      FONT.draw_text File.basename(@filename), 13, @top + 2, 0, 1, 1, text_color
     end
     
     def click

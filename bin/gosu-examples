@@ -2,13 +2,10 @@
 
 require "gosu"
 
+require_relative "../lib/gosu-examples/example"
+require_relative "../lib/gosu-examples/sidebar"
+
 Dir.chdir "#{File.dirname __FILE__}/../examples"
-
-$LOAD_PATH << "#{File.dirname __FILE__}/../lib/gosu-examples"
-
-require "example"
-require "sidebar"
-
 Example.load_examples "*.rb"
 
 class ExampleBox < Gosu::Window
@@ -89,7 +86,7 @@ class ExampleBox < Gosu::Window
     elsif RUBY_PLATFORM =~ /mingw[0-9]*$/
       `explorer "#{filename.gsub('/', '\\')}"`
     else
-      `xdg-open '#{filename}'`
+      fork { exec "xdg-open '#{filename}'" }
     end
   end
 end
