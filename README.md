@@ -26,5 +26,5 @@ Some examples require the following additional libraries:
 ```bash
 gem install chipmunk
 gem install rmagick
-gem install opengl
+gem install opengl-bindings
 ```
