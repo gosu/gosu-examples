@@ -24,31 +24,31 @@ class TextField < Gosu::TextInput
   WIDTH = 350
   LENGTH_LIMIT = 20
   PADDING = 5
-  
+
   INACTIVE_COLOR  = 0xcc_666666
   ACTIVE_COLOR    = 0xcc_ff6666
   SELECTION_COLOR = 0xcc_0000ff
   CARET_COLOR     = 0xff_ffffff
-  
+
   attr_reader :x, :y
-  
+
   def initialize(window, x, y)
     # It's important to call the inherited constructor.
     super()
-    
+
     @window, @x, @y = window, x, y
-    
+
     # Start with a self-explanatory text in each field.
     self.text = "Click to edit"
   end
-  
+
   # In this example, we use the filter method to prevent the user from entering a text that exceeds
   # the length limit. However, you can also use this to blacklist certain characters, etc.
   def filter new_text
     allowed_length = [LENGTH_LIMIT - text.length, 0].max
     new_text[0, allowed_length]
   end
-  
+
   def draw(z)
     # Change the background colour if this is the currently selected text field.
     if @window.text_input == self
@@ -57,12 +57,12 @@ class TextField < Gosu::TextInput
       color = INACTIVE_COLOR
     end
     Gosu.draw_rect x - PADDING, y - PADDING, WIDTH + 2 * PADDING, height + 2 * PADDING, color, z
-    
+
     # Calculate the position of the caret and the selection start.
     pos_x = x + FONT.text_width(self.text[0...self.caret_pos])
     sel_x = x + FONT.text_width(self.text[0...self.selection_start])
     sel_w = pos_x - sel_x
-    
+
     # Draw the selection background, if any. (If not, sel_x and pos_x will be
     # the same value, making this a no-op call.)
     Gosu.draw_rect sel_x, y, sel_w, height, SELECTION_COLOR, z
@@ -75,7 +75,7 @@ class TextField < Gosu::TextInput
     # Finally, draw the text itself!
     FONT.draw_text self.text, x, y, z
   end
-  
+
   def height
     FONT.height
   end
@@ -85,7 +85,7 @@ class TextField < Gosu::TextInput
     @window.mouse_x > x - PADDING and @window.mouse_x < x + WIDTH + PADDING and
       @window.mouse_y > y - PADDING and @window.mouse_y < y + height + PADDING
   end
-  
+
   # Tries to move the caret to the position specifies by mouse_x
   def move_caret_to_mouse
     # Test character by character
@@ -104,24 +104,24 @@ class TextInputDemo < (Example rescue Gosu::Window)
   def initialize
     super 640, 480
     self.caption = "Text Input Demo"
-    
-    
+
+
     text =
       "This demo explains (in the source code) how to use the Gosu::TextInput API by building a little TextField class around it.
-      
+
       Each text field can take up to 30 characters, and you can use Tab to switch between them.
 
       As in every example, press <b>E</b> to look at the source code."
-    
+
     # Remove all leading spaces so the text is left-aligned
     text.gsub! /^ +/, ""
-    
-    @text = Gosu::Image.from_text text, 20, width: 540
-        
+
+    @text = Gosu::Image.from_markup text, 20, width: 540
+
     # Set up an array of three text fields.
     @text_fields = Array.new(3) { |index| TextField.new(self, 50, 300 + index * 50) }
   end
-  
+
   def needs_cursor?
     true
   end
@@ -130,7 +130,7 @@ class TextInputDemo < (Example rescue Gosu::Window)
     @text.draw 50, 50, 0
     @text_fields.each { |tf| tf.draw(0) }
   end
-  
+
   def button_down(id)
     if id == Gosu::KB_TAB
       # Tab key will not be 'eaten' by text fields; use for switching through
