@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "gosu-examples"
-  s.version     = "1.0.5"
+  s.version     = "1.0.6"
   s.author      = "Julian Raschke"
   s.email       = "julian@raschke.de"
   s.homepage    = "http://www.libgosu.org/"
@@ -13,5 +13,5 @@ Gem::Specification.new do |s|
                   Dir.glob("{lib,examples}/**/*.rb") +
                   Dir.glob("{lib,examples}/media/**/*")
 
-  s.add_dependency "gosu", ">= 0.14.0"
+  s.add_dependency "gosu", ">= 1.0.0"
 end
