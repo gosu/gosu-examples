@@ -2,7 +2,7 @@ class Sidebar
   WIDTH = 300
   HEIGHT = 600
   FONT = Gosu::Font.new(20)
-  HEADER = Gosu::Image.new("#{File.dirname __FILE__}/media/header@2x.psd", tileable: true)
+  HEADER = Gosu::Image.new("media/header@2x.psd", tileable: true)
 
   class Button
     HEIGHT = 25

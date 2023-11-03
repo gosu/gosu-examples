@@ -2,10 +2,11 @@
 
 require "gosu"
 
+Dir.chdir "#{File.dirname __FILE__}/../examples"
+
 require_relative "../lib/gosu-examples/example"
 require_relative "../lib/gosu-examples/sidebar"
 
-Dir.chdir "#{File.dirname __FILE__}/../examples"
 Example.load_examples "*.rb"
 
 class ExampleBox < Gosu::Window
