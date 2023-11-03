@@ -1,5 +1,3 @@
-# Encoding: UTF-8
-
 ## File: ChipmunkIntegration.rb
 ## Author: Dirk Johnson
 ## Version: 1.0.0

@@ -1,5 +1,3 @@
-# Encoding: UTF-8
-
 require "gosu"
 
 WIDTH, HEIGHT = 640, 480

@@ -1,5 +1,3 @@
-# Encoding: UTF-8
-
 # The tutorial game over a landscape rendered with OpenGL.
 # Basically shows how arbitrary OpenGL calls can be put into
 # the block given to Window#gl, and that Gosu Images can be

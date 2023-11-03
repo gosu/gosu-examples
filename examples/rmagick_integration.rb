@@ -1,5 +1,3 @@
-# Encoding: UTF-8
-
 # A simple Gorilla-style shooter for two players.
 # Shows how Gosu and RMagick can be used together to generate a map, implement
 # a dynamic landscape and generally look great.

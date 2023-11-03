@@ -1,5 +1,3 @@
-# Encoding: UTF-8
-
 # Based on the C Demo3 demonstration distributed with Chipmunk.
 # Also with some help from the chipmunk_integration.rb program.
 #

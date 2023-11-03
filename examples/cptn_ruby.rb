@@ -1,5 +1,3 @@
-# Encoding: UTF-8
-
 # A simple jump-and-run/platformer game with a tile-based map.
 
 # Shows how to
