@@ -17,7 +17,7 @@ end
 
 WIDTH = 640
 HEIGHT = 480
-TICK = 1.0/60.0
+TICK = 1.0 / 60.0
 NUM_POLYGONS = 80
 NUM_SIDES = 4
 EDGE_SIZE = 15
@@ -26,16 +26,16 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
   def radians_to_vec2(radians)
     CP::Vec2.new(Math::cos(radians), Math::sin(radians))
   end
-  
+
   def initialize
     super WIDTH, HEIGHT
-    
+
     self.caption = "Chipmunk, RMagick and Gosu"
-    
+
     @space = CP::Space.new
     @space.iterations = 5
     @space.gravity = CP::Vec2.new(0, 100)
-    
+
     # you can replace the background with any image with this line
     # background = Magick::ImageList.new("media/space.png")
     fill = Magick::TextureFill.new(Magick::ImageList.new("granite:"))
@@ -44,7 +44,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
     @background_image = Gosu::Image.new(background, tileable: true) # turn the image into a Gosu one
     @boxes = create_boxes(NUM_POLYGONS)
   end
-  
+
   # Create all of the static triangles.
   # Adds them to the space and the background image.
   def setup_triangles(background)
@@ -56,7 +56,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
     body = CP::Body.new(Float::MAX, Float::MAX)
     base = 15
     height = 10
-    shape_vertices =  [CP::Vec2.new(-base, base), CP::Vec2.new(base, base), CP::Vec2.new(0, -height)]
+    shape_vertices = [CP::Vec2.new(-base, base), CP::Vec2.new(base, base), CP::Vec2.new(0, -height)]
     # make shapes and images
     8.times do |i|
       8.times do |j|
@@ -67,7 +67,7 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
         shape.e = 1
         shape.u = 1
         @space.add_static_shape(shape)
-        gc.polygon(x - base + 1, y + base - 1, x + base - 1, y + base - 1,  x, y - height + 1)
+        gc.polygon(x - base + 1, y + base - 1, x + base - 1, y + base - 1, x, y - height + 1)
       end
     end
     # do the drawing
@@ -83,10 +83,10 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
     end
     return vertices
   end
-  
+
   # Produces the image of a polygon.
   def polygon_image(vertices)
-    box_image = Magick::Image.new(EDGE_SIZE  * 2, EDGE_SIZE * 2) { self.background_color = "transparent" }
+    box_image = Magick::Image.new(EDGE_SIZE * 2, EDGE_SIZE * 2) { self.background_color = "transparent" }
     gc = Magick::Draw.new
     gc.stroke("red")
     gc.fill("plum")
@@ -95,12 +95,12 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
     gc.draw(box_image)
     return Gosu::Image.new(box_image)
   end
-  
+
   # Produces the polygon objects and adds them to the space.
   def create_boxes(num)
     box_vertices = polygon_vertices(NUM_SIDES, EDGE_SIZE)
     box_image = polygon_image(box_vertices)
-    boxes =  []
+    boxes = []
     num.times do
       body = CP::Body.new(1, CP::moment_for_poly(1.0, box_vertices, CP::Vec2.new(0, 0))) # mass, moment of inertia
       body.p = CP::Vec2.new(rand(WIDTH), rand(40) - 50)
@@ -109,17 +109,17 @@ class ChipmunkAndRMagick < (Example rescue Gosu::Window)
       shape.u = 0.4
       boxes << Box.new(box_image, body)
       @space.add_body(body)
-      @space.add_shape(shape)      
+      @space.add_shape(shape)
     end
     return boxes
   end
-  
+
   # All the simulation is done here.
   def update
     @space.step(TICK)
     @boxes.each { |box| box.check_off_screen }
   end
-  
+
   # All the updating of the screen is done here.
   def draw
     @background_image.draw(0, 0, ZOrder::BACKGROUND)
@@ -134,7 +134,7 @@ class Box
     @image = image
     @body = body
   end
-  
+
   # If it goes offscreen we put it back to the top.
   def check_off_screen
     pos = @body.p
@@ -142,7 +142,7 @@ class Box
       @body.p = CP::Vec2.new(rand * WIDTH, 0)
     end
   end
-  
+
   def draw
     @image.draw_rot(@body.p.x, @body.p.y, ZOrder::BOX, @body.a.radians_to_gosu)
   end

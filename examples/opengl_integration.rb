@@ -84,25 +84,25 @@ class GLBackground
     0.upto(POINTS_Y - 2) do |y|
       0.upto(POINTS_X - 2) do |x|
         glBegin(GL_TRIANGLE_STRIP)
-          z = @height_map[y][x]
-          glColor4d(1, 1, 1, z)
-          glTexCoord2d(info.left, info.top)
-          glVertex3d(-0.5 + (x - 0.0) / (POINTS_X-1), -0.5 + (y - offs_y - 0.0) / (POINTS_Y-2), z)
+        z = @height_map[y][x]
+        glColor4d(1, 1, 1, z)
+        glTexCoord2d(info.left, info.top)
+        glVertex3d(-0.5 + (x - 0.0) / (POINTS_X - 1), -0.5 + (y - offs_y - 0.0) / (POINTS_Y - 2), z)
 
-          z = @height_map[y+1][x]
-          glColor4d(1, 1, 1, z)
-          glTexCoord2d(info.left, info.bottom)
-          glVertex3d(-0.5 + (x - 0.0) / (POINTS_X-1), -0.5 + (y - offs_y + 1.0) / (POINTS_Y-2), z)
+        z = @height_map[y + 1][x]
+        glColor4d(1, 1, 1, z)
+        glTexCoord2d(info.left, info.bottom)
+        glVertex3d(-0.5 + (x - 0.0) / (POINTS_X - 1), -0.5 + (y - offs_y + 1.0) / (POINTS_Y - 2), z)
 
-          z = @height_map[y][x + 1]
-          glColor4d(1, 1, 1, z)
-          glTexCoord2d(info.right, info.top)
-          glVertex3d(-0.5 + (x + 1.0) / (POINTS_X-1), -0.5 + (y - offs_y - 0.0) / (POINTS_Y-2), z)
+        z = @height_map[y][x + 1]
+        glColor4d(1, 1, 1, z)
+        glTexCoord2d(info.right, info.top)
+        glVertex3d(-0.5 + (x + 1.0) / (POINTS_X - 1), -0.5 + (y - offs_y - 0.0) / (POINTS_Y - 2), z)
 
-          z = @height_map[y+1][x + 1]
-          glColor4d(1, 1, 1, z)
-          glTexCoord2d(info.right, info.bottom)
-          glVertex3d(-0.5 + (x + 1.0) / (POINTS_X-1), -0.5 + (y - offs_y + 1.0) / (POINTS_Y-2), z)
+        z = @height_map[y + 1][x + 1]
+        glColor4d(1, 1, 1, z)
+        glTexCoord2d(info.right, info.bottom)
+        glVertex3d(-0.5 + (x + 1.0) / (POINTS_X - 1), -0.5 + (y - offs_y + 1.0) / (POINTS_Y - 2), z)
         glEnd
       end
     end
@@ -171,7 +171,7 @@ class Star
   end
 
   def draw
-    img = @animation[Gosu.milliseconds / 100 % @animation.size];
+    img = @animation[Gosu.milliseconds / 100 % @animation.size]
     img.draw_rot(@x, @y, ZOrder::Stars, @y, 0.5, 0.5, 1, 1, @color, :add)
   end
 
@@ -200,10 +200,10 @@ class OpenGLIntegration < (Example rescue Gosu::Window)
   end
 
   def update
-    @player.move_left  if Gosu.button_down? Gosu::KB_LEFT  or Gosu.button_down? Gosu::GP_LEFT
+    @player.move_left if Gosu.button_down? Gosu::KB_LEFT or Gosu.button_down? Gosu::GP_LEFT
     @player.move_right if Gosu.button_down? Gosu::KB_RIGHT or Gosu.button_down? Gosu::GP_RIGHT
-    @player.accelerate if Gosu.button_down? Gosu::KB_UP    or Gosu.button_down? Gosu::GP_UP
-    @player.brake      if Gosu.button_down? Gosu::KB_DOWN  or Gosu.button_down? Gosu::GP_DOWN
+    @player.accelerate if Gosu.button_down? Gosu::KB_UP or Gosu.button_down? Gosu::GP_UP
+    @player.brake if Gosu.button_down? Gosu::KB_DOWN or Gosu.button_down? Gosu::GP_DOWN
 
     @player.collect_stars(@stars)
 

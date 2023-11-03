@@ -25,10 +25,10 @@ class TextField < Gosu::TextInput
   LENGTH_LIMIT = 20
   PADDING = 5
 
-  INACTIVE_COLOR  = 0xcc_666666
-  ACTIVE_COLOR    = 0xcc_ff6666
+  INACTIVE_COLOR = 0xcc_666666
+  ACTIVE_COLOR = 0xcc_ff6666
   SELECTION_COLOR = 0xcc_0000ff
-  CARET_COLOR     = 0xff_ffffff
+  CARET_COLOR = 0xff_ffffff
 
   attr_reader :x, :y
 
@@ -44,7 +44,7 @@ class TextField < Gosu::TextInput
 
   # In this example, we use the filter method to prevent the user from entering a text that exceeds
   # the length limit. However, you can also use this to blacklist certain characters, etc.
-  def filter new_text
+  def filter(new_text)
     allowed_length = [LENGTH_LIMIT - text.length, 0].max
     new_text[0, allowed_length]
   end
@@ -91,7 +91,7 @@ class TextField < Gosu::TextInput
     # Test character by character
     1.upto(self.text.length) do |i|
       if @window.mouse_x < x + FONT.text_width(text[0...i])
-        self.caret_pos = self.selection_start = i - 1;
+        self.caret_pos = self.selection_start = i - 1
         return
       end
     end
@@ -104,7 +104,6 @@ class TextInputDemo < (Example rescue Gosu::Window)
   def initialize
     super 640, 480
     self.caption = "Text Input Demo"
-
 
     text =
       "This demo explains (in the source code) how to use the Gosu::TextInput API by building a little TextField class around it.
